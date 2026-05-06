@@ -1,403 +1,150 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-<meta charset="UTF-8">
-<title>AthletePulse</title>
- 
-<style>
-html {
-  scroll-behavior: smooth;
-}
- 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  color: #e5e7eb;
-  background: #0b1220;
-}
- 
-/* NAVBAR */
-.nav {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  padding: 15px;
-  background: rgba(15, 26, 43, 0.75);
-  backdrop-filter: blur(10px);
-  z-index: 1000;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
- 
-.nav a {
-  color: #cbd5e1;
-  text-decoration: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  transition: 0.3s;
-}
- 
-.nav a:hover {
-  background: #3b82f6;
-  color: white;
-}
- 
-/* HERO */
-.hero {
-  height: 100vh;
-  background-image: url("https://images.pexels.com/photos/47730/the-ball-stadion-football-the-pitch-47730.jpeg?cs=srgb&dl=pexels-pixabay-47730.jpg&fm=jpg");
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
- 
-/* ESCURECIMENTO */
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.65);
-}
- 
-.overlay {
-  position: relative;
-  z-index: 2;
-  background: rgba(15, 26, 43, 0.55);
-  border: 1px solid rgba(255,255,255,0.05);
-  padding: 50px;
-  border-radius: 16px;
-  text-align: center;
-  max-width: 650px;
-  backdrop-filter: blur(8px);
-}
- 
-h1 {
-  font-size: 42px;
-}
- 
-p {
-  font-size: 18px;
-  opacity: 0.9;
-}
- 
-/* BOTÃO */
-button {
-  margin-top: 15px;
-  padding: 12px 25px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  background: #3b82f6;
-  color: white;
-  transition: 0.3s;
-}
- 
-button:hover {
-  transform: scale(1.05);
-  background: #2563eb;
-}
- 
-/* SEÇÕES */
-section {
-  min-height: auto;
-  padding: 80px 30px;
-  text-align: center;
-}
- 
-#info {
-  background: #0f1a2b;
-}
- 
-#contato {
-  background: #0b1220;
-}
- 
-/* CARDS */
-.cards {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
- 
-.card {
-  background: #152238;
-  padding: 40px;
-  border-radius: 12px;
-  width: 260px;
-  border: 1px solid rgba(255,255,255,0.05);
-  transition: 0.3s;
-}
- 
-.card:hover {
-  transform: translateY(-5px);
-  background: #1b2a44;
-}
- 
-/* FUNDO GRADIENTE */
-.background {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
- 
-  background: linear-gradient(135deg,
-    hsl(215, 30%, 10%) 0%,
-    hsl(215, 28%, 18%) 60%,
-    hsl(215, 25%, 32%) 100%
-  );
-}
- 
-/* MÓDULOS */
-#modulos {
-  background: #0f1a2b;
-  padding: 100px 20px;
-  text-align: center;
-}
- 
-.cards-modulos {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-top: 40px;
-}
- 
-.card-modulo {
-  background: #152238;
-  width: 240px;
-  padding: 25px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.05);
-  transition: 0.3s;
-  text-align: left;
-}
- 
-.card-modulo:hover {
-  transform: translateY(-8px);
-  background: #1b2a44;
-}
- 
-.icon {
-  width: 40px;
-  height: 40px;
-  background: #3b82f6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  font-size: 20px;
-}
-.titulo-box {
-  max-width: 700px;
-  margin: 0 auto 40px auto;
-  padding: 30px;
-  background: rgba(21, 34, 56, 0.6);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px;
-  backdrop-filter: blur(8px);
-  transition: 1s;
-}
-
-.titulo-box:hover {
-  transform: translateY(-8px);
-  background: #1b2a44;
-}
- 
-.tag {
-  display: inline-block;
-  padding: 5px 12px;
-  font-size: 12px;
-  border-radius: 20px;
-  background: #3b82f6;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-#Equipe {
-  background: #0f1a2b;
-  padding: 80px 20px;
-}
-
-.equipe {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
-  margin-top: 30px;
-}
-
-.equipe img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%; /* deixa redondo */
-  object-fit: cover;
-  border: 3px solid #3b82f6;
-  transition: 0.3s;
-}
-
-.equipe img:hover {
-  transform: scale(1.1);
-}
-
-.membro {
-  text-align: center;
-  max-width: 150px;
-}
-
-.membro h3 {
-  margin: 10px 0 5px;
-  font-size: 16px;
-}
-
-
-
-</style>
+  <meta charset="UTF-8">
+  <title>AthletePulse</title>
+  <link rel="stylesheet" href="./estilos/estilos.css">
 </head>
- 
+
 <body>
- 
-<!-- FUNDO -->
-<div class="background"></div>
- 
-<!-- NAV -->
-<div class="nav">
-  <a href="#home">Home</a>
-  <a href="#info">Saiba mais</a>
-  <a href="#modulos">Módulos</a>
-  <a href="#contato">Contato</a>
- <a href="#Equipe">Equipe</a>
-</div>
- 
-<!-- HERO -->
-<section id="home" class="hero">
-  <div class="overlay">
-    <h1>AthletePulse</h1>
- 
-    <p>
-      Centralize todas as informações do time em um só lugar.
-      A comissão técnica registra dados diariamente e acompanha a evolução dos atletas.
-    </p>
-    <p>
-      Substitua planilhas e mensagens espalhadas por um sistema único de gestão esportiva.
-    </p>
- 
-    <button onclick="window.location.href='#info'">
-      Saiba Mais
-    </button>
+
+  <!-- FUNDO -->
+  <div class="background"></div>
+
+  <!-- NAV -->
+  <div class="nav">
+    <a href="#home">Home</a>
+    <a href="#info">Saiba mais</a>
+    <a href="#modulos">Módulos</a>
+    <a href="#contato">Contato</a>
+    <a href="#Equipe">Equipe</a>
   </div>
-</section>
- 
-<!-- INFO -->
-<section id="info">
-  <h1>Tudo que seu clube precisa em um único lugar</h1>
-  <h3>Substitua planilhas, grupos de WhatsApp e controles avulsos por uma operação profissional.</h3>
- 
-  <div class="cards">
-    <div class="card">
-      <h2>Decisões orientadas por dados</h2>
-      <p>Indicadores diários de sono, fadiga, humor e carga para antecipar riscos antes que virem lesão.</p>
+
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <div class="overlay">
+      <h1>AthletePulse</h1>
+
+      <p>
+        Centralize todas as informações do time em um só lugar.
+        A comissão técnica registra dados diariamente e acompanha a evolução dos atletas.
+      </p>
+      <p>
+        Substitua planilhas e mensagens espalhadas por um sistema único de gestão esportiva.
+      </p>
+
+      <button onclick="window.location.href='#info'">
+        Saiba Mais
+      </button>
     </div>
- 
-    <div class="card">
-      <h2>Operação simples e ágil</h2>
-      <p>Atleta responde em menos de 1 minuto.
-        Comissão recebe insights prontos no painel.
+  </section>
+
+  <!-- INFO -->
+  <section id="info">
+    <h1>Tudo que seu clube precisa em um único lugar</h1>
+    <h3>Substitua planilhas, grupos de WhatsApp e controles avulsos por uma operação profissional.</h3>
+
+    <div class="cards">
+      <div class="card">
+        <h2>Decisões orientadas por dados</h2>
+        <p>Indicadores diários de sono, fadiga, humor e carga para antecipar riscos antes que virem lesão.</p>
+      </div>
+
+      <div class="card">
+        <h2>Operação simples e ágil</h2>
+        <p>Atleta responde em menos de 1 minuto.
+          Comissão recebe insights prontos no painel.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>Confidencialidade por função</h2>
+        <p>Notas da psicologia ficam restritas.
+          Cada setor vê apenas o que é seu.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÓDULOS -->
+  <section id="modulos">
+
+    <div class="titulo-box">
+      <span class="tag">MÓDULOS</span>
+
+      <h1>Um painel para cada função</h1>
+
+      <p>
+        Cada profissional acessa exatamente o que precisa.
       </p>
     </div>
- 
-    <div class="card">
-      <h2>Confidencialidade por função</h2>
-      <p>Notas da psicologia ficam restritas.
-        Cada setor vê apenas o que é seu.
-      </p>
+
+    <div class="cards-modulos">
+
+      <div class="card-modulo">
+        <div class="icon">📋</div>
+        <h3>Jogador</h3>
+        <p>Check-in diário sobre sono, dor, humor e energia.</p>
+      </div>
+
+      <div class="card-modulo">
+        <div class="icon">🧠</div>
+        <h3>Psicologia</h3>
+        <p>Acompanhamento mental da equipe com notas privadas e seguras.</p>
+      </div>
+
+      <div class="card-modulo">
+        <div class="icon">🏋️</div>
+        <h3>Preparação Física</h3>
+        <p>Planejamento de treinos, controle de carga e avaliação de excecucção.</p>
+      </div>
+
+      <div class="card-modulo">
+        <div class="icon">📊</div>
+        <h3>Comissão Técnica</h3>
+        <p>Visão total do elenco para escalações e estratégias mais assertivas.</p>
+      </div>
+
     </div>
-  </div>
-</section>
- 
-<!-- MÓDULOS -->
-<section id="modulos">
- 
-  <div class="titulo-box">
-    <span class="tag">MÓDULOS</span>
- 
-    <h1>Um painel para cada função</h1>
- 
-    <p>
-      Cada profissional acessa exatamente o que precisa.
-    </p>
-  </div>
- 
-  <div class="cards-modulos">
- 
-    <div class="card-modulo">
-      <div class="icon">📋</div>
-      <h3>Jogador</h3>
-      <p>Check-in diário sobre sono, dor, humor e energia.</p>
-    </div>
- 
-    <div class="card-modulo">
-      <div class="icon">🧠</div>
-      <h3>Psicologia</h3>
-      <p>Acompanhamento mental da equipe com notas privadas e seguras.</p>
-    </div>
- 
-    <div class="card-modulo">
-      <div class="icon">🏋️</div>
-      <h3>Preparação Física</h3>
-      <p>Planejamento de treinos, controle de carga e avaliação de excecucção.</p>
-    </div>
- 
-    <div class="card-modulo">
-      <div class="icon">📊</div>
-      <h3>Comissão Técnica</h3>
-      <p>Visão total do elenco para escalações e estratégias mais assertivas.</p>
-    </div>
- 
-  </div>
-</section>
- 
-<!-- CONTATO -->
-<section id="contato">
-  <h1>Contato</h1>
-  <p>Entre em contato pelo WhatsApp!</p>
-  <p>Telefone: 47 996733467</p>
-  <p>Email: athletepulse@gmail.com</p>
-</section>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato">
+    <h1>Contato</h1>
+    <p>Entre em contato pelo WhatsApp!</p>
+    <p>Telefone: 47 996733467</p>
+    <p>Email: athletepulse@gmail.com</p>
+  </section>
 
 
 
-<!-- Equipe-->
-<section id="Equipe">
-  <h1>Equipe</h1>
- 
-  <div class="equipe">
+  <!-- Equipe-->
+  <section id="Equipe">
+    <h1>Equipe</h1>
 
-    <div class="membro">
-      <img src="https://avatars.githubusercontent.com/u/267778796?v=4">
-      <h3>João Ely Vieira</h3>
-     
+    <div class="equipe">
+
+      <div class="membro">
+        <img src="https://avatars.githubusercontent.com/u/267778796?v=4">
+        <h3>João Ely Vieira</h3>
+
+      </div>
+
+      <div class="membro">
+        <img src="https://avatars.githubusercontent.com/u/199787926?v=4">
+        <h3>João Victor Scottini Da Costa</h3>
+
+      </div>
+
+      <div class="membro">
+        <img src="https://avatars.githubusercontent.com/u/273166753?v=4">
+        <h3>Arthur Zanella </h3>
+
+      </div>
+
     </div>
-
-    <div class="membro">
-      <img src="https://avatars.githubusercontent.com/u/199787926?v=4">
-      <h3>João Victor Scottini Da Costa</h3>
-    
-    </div>
-
-    <div class="membro">
-      <img src="https://avatars.githubusercontent.com/u/273166753?v=4">
-      <h3>Arthur Zanella </h3>
-     
-    </div>
-
-  </div>
-</section>
+  </section>
 </body>
+
 </html>

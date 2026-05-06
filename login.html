@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Escolha seu perfil</title>
+  <link rel="stylesheet" href="./estilos/estiloslogin.css">
+</head>
+
+<body>
+
+  <div class="left">
+    <img src="https://images.pexels.com/photos/114296/pexels-photo-114296.jpeg">
+  </div>
+
+  <div class="right">
+    <div class="container">
+      <h1>Escolha seu perfil</h1>
+
+      <div class="cards">
+
+        <div class="card" onclick="irPara('jogador')">
+          <h2>⚽ Jogador</h2>
+        </div>
+
+        <div class="card" onclick="irPara('tecnico')">
+          <h2>📊 Comissão Técnica</h2>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function irPara(tipo) {
+      if (tipo === "jogador") {
+        window.location.href = "login-jogador.html";
+      }
+
+      if (tipo === "tecnico") {
+        window.location.href = "login-comissao.html";
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,274 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #e5e7eb;
+    background: #0b1220;
+}
+
+/* NAVBAR */
+.nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 25px;
+    background: rgba(15, 26, 43, 0.75);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+}
+
+.nav a {
+    color: #cbd5e1;
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+/* links centralizados */
+.nav-links {
+    display: flex;
+    gap: 30px;
+
+}
+
+/* botão cadastro alinhado a direita */
+.btn-cadastro {
+    position: absolute;
+    right: 65px;
+    background: #3b82f6;
+    color: white !important;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.btn-cadastro:hover {
+    background: #2563eb;
+    transform: scale(1.05);
+}
+
+/* hover dos links normais */
+.nav a:not(.btn-cadastro):hover {
+    background: #3b82f6;
+    color: white;
+}
+
+/* HERO */
+.hero {
+    height: 100vh;
+    background-image: url("https://images.pexels.com/photos/47730/the-ball-stadion-football-the-pitch-47730.jpeg?cs=srgb&dl=pexels-pixabay-47730.jpg&fm=jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* ESCURECIMENTO */
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+}
+
+.overlay {
+    position: relative;
+    z-index: 2;
+    background: rgba(15, 26, 43, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 50px;
+    border-radius: 16px;
+    text-align: center;
+    max-width: 650px;
+    backdrop-filter: blur(8px);
+}
+
+h1 {
+    font-size: 42px;
+}
+
+p {
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+/* BOTÃO */
+button {
+    margin-top: 15px;
+    padding: 12px 25px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    background: #3b82f6;
+    color: white;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    background: #2563eb;
+}
+
+/* SEÇÕES */
+section {
+    min-height: auto;
+    padding: 80px 30px;
+    text-align: center;
+}
+
+#info {
+    background: #0f1a2b;
+}
+
+#contato {
+    background: #0b1220;
+}
+
+/* CARDS */
+.cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: #152238;
+    padding: 40px;
+    border-radius: 12px;
+    width: 260px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    background: #1b2a44;
+}
+
+/* FUNDO GRADIENTE */
+.background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+
+    background: linear-gradient(135deg,
+            hsl(215, 30%, 10%) 0%,
+            hsl(215, 28%, 18%) 60%,
+            hsl(215, 25%, 32%) 100%);
+}
+
+/* MÓDULOS */
+#modulos {
+    background: #0f1a2b;
+    padding: 100px 20px;
+    text-align: center;
+}
+
+.cards-modulos {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.card-modulo {
+    background: #152238;
+    width: 240px;
+    padding: 25px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: 0.3s;
+    text-align: left;
+}
+
+.card-modulo:hover {
+    transform: translateY(-8px);
+    background: #1b2a44;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+    background: #3b82f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.titulo-box {
+    max-width: 700px;
+    margin: 0 auto 40px auto;
+    padding: 30px;
+    background: rgba(21, 34, 56, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+    transition: 1s;
+}
+
+.titulo-box:hover {
+    transform: translateY(-8px);
+    background: #1b2a44;
+}
+
+.tag {
+    display: inline-block;
+    padding: 5px 12px;
+    font-size: 12px;
+    border-radius: 20px;
+    background: #3b82f6;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* EQUIPE */
+#Equipe {
+    background: #0f1a2b;
+    padding: 80px 20px;
+}
+
+.equipe {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.equipe img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #3b82f6;
+    transition: 0.3s;
+}
+
+.equipe img:hover {
+    transform: scale(1.1);
+}
+
+.membro {
+    text-align: center;
+    max-width: 150px;
+}
+
+.membro h3 {
+    margin: 10px 0 5px;
+    font-size: 16px;
+}

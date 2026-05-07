@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>cadastro</title>
+<link rel="stylesheet" href="./estilos/cadastro.css">
+</head>
+
+<body class="auth-page">
+
+  <div class="auth-card">
+    <h1 class="auth-title">Criar Conta</h1>
+
+    <form id="formCadastro" class="auth-form">
+
+      <input class="auth-input" type="text" id="nome" placeholder="Nome completo">
+      <small class="error" id="erroNome"></small>
+
+      <input class="auth-input" type="email" id="email" placeholder="Email">
+      <small class="error" id="erroEmail"></small>
+
+      <select class="auth-input" id="tipo">
+        <option value="">Selecione o tipo</option>
+        <option value="jogador">Jogador</option>
+        <option value="comissao">Comissão Técnica</option>
+      </select>
+      <small class="error" id="erroTipo"></small>
+
+      <input class="auth-input" type="password" id="senha" placeholder="Senha">
+      <small class="error" id="erroSenha"></small>
+
+      <input class="auth-input" type="password" id="confirmarSenha" placeholder="Confirmar senha">
+      <small class="error" id="erroConfirmar"></small>
+
+      <button class="auth-button" type="submit">Cadastrar</button>
+
+      <p class="auth-text">
+        Já tem conta? <a class="auth-link" href="#">Entrar</a>
+      </p>
+
+    </form>
+  </div>
+
+<script src="./js/cadastro.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+/* ===== BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.auth-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+/* Fundo por tipo */
+.auth-page.player {
+  background: linear-gradient(135deg, #0f172a, #1e3a8a);
+}
+
+.auth-page.staff {
+  background: linear-gradient(135deg, #111827, #065f46);
+}
+
+/* ===== CARD ===== */
+.auth-card {
+  width: 340px;
+  padding: 45px;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* ===== TITULO ===== */
+.auth-title {
+  font-size: 24px;
+  margin-bottom: 25px;
+  letter-spacing: 0.5px;
+}
+
+/* ===== FORM ===== */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ===== INPUT ===== */
+.auth-input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+
+  background: rgba(255,255,255,0.9);
+  transition: 0.2s;
+}
+
+.auth-input:focus {
+  transform: scale(1.02);
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+/* ===== BOTAO ===== */
+.auth-button {
+  margin-top: 5px;
+  padding: 12px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #3b82f6;
+  color: white;
+
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+.auth-button:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+}
+
+/* ===== TEXTO ===== */
+.auth-text {
+  margin-top: 10px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.auth-link {
+  color: #93c5fd;
+  text-decoration: none;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 768px) {
+  .auth-card {
+    width: 90%;
+    padding: 30px 20px;
+  }
+
+  .auth-title {
+    font-size: 20px;
+  }
+}

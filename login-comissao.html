@@ -2,22 +2,27 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login Comissão Técnica</title>
-<link rel="stylesheet" href="./estilos/login-comissao.css">
+<link rel="stylesheet" href="./estilos/auth.css">
 </head>
 
-<body>
+<body class="auth-page staff">
 
-<div class="container">
-  <h1>Comissão Técnica</h1>
+  <div class="auth-card">
+    <h1 class="auth-title">Comissão Técnica</h1>
 
-  <input type="email" placeholder="Email">
-  <input type="password" placeholder="Senha">
+    <div class="auth-form">
+      <input class="auth-input" type="email" placeholder="Email">
+      <input class="auth-input" type="password" placeholder="Senha">
 
-  <button>Entrar</button>
+      <button class="auth-button">Entrar</button>
 
-  <p>Não tem conta? <a href="#">Cadastrar-se</a></p>
-</div>
+      <p class="auth-text">
+        Não tem conta? <a class="auth-link" href="#">Cadastrar-se</a>
+      </p>
+    </div>
+  </div>
 
 </body>
 </html>

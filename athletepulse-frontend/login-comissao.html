@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Comissão Técnica | AthletePulse</title>
+<link rel="stylesheet" href="./estilos/auth.css">
+</head>
+
+<body class="auth-page staff">
+
+  <div class="auth-card">
+    <h1 class="auth-title">Comissão Técnica</h1>
+
+    <div class="auth-alert" id="alertLogin"></div>
+
+    <form id="formLogin" class="auth-form" data-role="comissao">
+      <input class="auth-input" type="email" id="email" placeholder="Email" autocomplete="email">
+      <small class="error" id="erroEmail"></small>
+
+      <input class="auth-input" type="password" id="senha" placeholder="Senha" autocomplete="current-password">
+      <small class="error" id="erroSenha"></small>
+
+      <button class="auth-button" type="submit">Entrar</button>
+
+      <p class="auth-text">
+        Não tem conta? <a class="auth-link" href="cadastro.html">Cadastrar-se</a>
+      </p>
+    </form>
+  </div>
+
+<script src="./js/config.js"></script>
+<script src="./js/validators.js"></script>
+<script src="./js/login.js"></script>
+</body>
+</html>

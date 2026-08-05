@@ -1,0 +1,9 @@
+target/
+.idea/
+*.iml
+.mvn/
+!.mvn/wrapper/maven-wrapper.jar
+.env
+
+# Contém senha real do banco - nunca commitar. Use application.properties.example como referência.
+src/main/resources/application.properties

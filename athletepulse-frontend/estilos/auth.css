@@ -12,9 +12,10 @@
   justify-content: center;
   align-items: center;
   color: white;
+  background: linear-gradient(135deg, #0f172a, #1e3a8a);
 }
 
-/* Fundo por tipo */
+/* Fundo por perfil */
 .auth-page.player {
   background: linear-gradient(135deg, #0f172a, #1e3a8a);
 }
@@ -25,17 +26,17 @@
 
 /* ===== CARD ===== */
 .auth-card {
-  width: 340px;
+  width: 360px;
   padding: 45px;
   border-radius: 18px;
 
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
 
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   text-align: center;
 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 /* ===== TITULO ===== */
@@ -56,14 +57,15 @@
 .auth-input {
   padding: 12px 14px;
   border-radius: 10px;
-  border: none;
+  border: 2px solid transparent;
   outline: none;
 
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.9);
   transition: 0.2s;
 }
 
 .auth-input:focus {
+  border-color: #3b82f6;
   transform: scale(1.02);
   box-shadow: 0 0 0 2px #3b82f6;
 }
@@ -89,6 +91,12 @@
   transform: translateY(-2px);
 }
 
+.auth-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* ===== TEXTO ===== */
 .auth-text {
   margin-top: 10px;
@@ -103,6 +111,42 @@
 
 .auth-link:hover {
   text-decoration: underline;
+}
+
+/* ===== MENSAGEM GERAL (erro de login, erro de servidor, etc.) ===== */
+.auth-alert {
+  display: none;
+  background: rgba(248, 113, 113, 0.15);
+  border: 1px solid #f87171;
+  color: #fecaca;
+  font-size: 13px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.auth-alert.show {
+  display: block;
+}
+
+/* ===== ERROS DE CAMPO ===== */
+.error {
+  color: #f87171;
+  font-size: 12px;
+  text-align: left;
+  margin-top: -6px;
+  margin-bottom: 2px;
+  display: block;
+  min-height: 14px;
+}
+
+.input-error {
+  border-color: #ef4444 !important;
+}
+
+.input-success {
+  border-color: #22c55e !important;
 }
 
 /* ===== RESPONSIVO ===== */

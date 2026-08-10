@@ -1,482 +1,551 @@
+/* =========================================================
+   ATHLETEPULSE — DESIGN SYSTEM
+   Conceito: súmula de jogo / campo de futebol
+========================================================= */
+
+:root {
+  --pitch-ink: #0f1e19;
+  --pitch-deep: #16302a;
+  --turf: #2f5f4f;
+  --turf-light: #3e7a64;
+  --chalk: #f5f1e6;
+  --chalk-dim: #cfc9b8;
+  --amber: #e4a33b;
+  --whistle: #c1443a;
+
+  --font-display: "Bebas Neue", sans-serif;
+  --font-body: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    color: #e5e7eb;
-    background: #0b1220;
-}
-
-/* NAVBAR */
-.nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px 25px;
-    background: rgba(15, 26, 43, 0.75);
-    backdrop-filter: blur(10px);
-    z-index: 1000;
-}
-
-.nav a {
-    color: #cbd5e1;
-    text-decoration: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    transition: 0.3s;
-}
-
-/* links centralizados */
-.nav-links {
-    display: flex;
-    gap: 30px;
-
-}
-
-/* botão cadastro alinhado a direita */
-.btn-cadastro {
-    position: absolute;
-    right: 65px;
-    background: #3b82f6;
-    color: white !important;
-    padding: 8px 16px;
-    border-radius: 10px;
-    font-weight: bold;
-}
-
-.btn-cadastro:hover {
-    background: #2563eb;
-    transform: scale(1.05);
-}
-
-/* hover dos links normais */
-.nav a:not(.btn-cadastro):hover {
-    background: #3b82f6;
-    color: white;
-}
-
-/* HERO */
-.hero {
-    height: 100vh;
-    background-image: url("https://images.pexels.com/photos/47730/the-ball-stadion-football-the-pitch-47730.jpeg?cs=srgb&dl=pexels-pixabay-47730.jpg&fm=jpg");
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-/* ESCURECIMENTO */
-.hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.65);
-}
-
-.overlay {
-    position: relative;
-    z-index: 2;
-    background: rgba(15, 26, 43, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 50px;
-    border-radius: 16px;
-    text-align: center;
-    max-width: 650px;
-    backdrop-filter: blur(8px);
-}
-
-h1 {
-    font-size: 42px;
-}
-
-p {
-    font-size: 18px;
-    opacity: 0.9;
-}
-
-/* BOTÃO */
-button {
-    margin-top: 15px;
-    padding: 12px 25px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    background: #3b82f6;
-    color: white;
-    transition: 0.3s;
-}
-
-button:hover {
-    transform: scale(1.05);
-    background: #2563eb;
-}
-
-/* SEÇÕES */
-section {
-    min-height: auto;
-    padding: 80px 30px;
-    text-align: center;
-}
-
-#info {
-    background: #0f1a2b;
-}
-
-#contato {
-    background: #0b1220;
-}
-
-/* CARDS */
-.cards {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.card {
-    background: #152238;
-    padding: 40px;
-    border-radius: 12px;
-    width: 260px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: 0.3s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    background: #1b2a44;
-}
-
-/* FUNDO GRADIENTE */
-.background {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-
-    background: linear-gradient(135deg,
-            hsl(215, 30%, 10%) 0%,
-            hsl(215, 28%, 18%) 60%,
-            hsl(215, 25%, 32%) 100%);
-}
-
-/* MÓDULOS */
-#modulos {
-    background: #0f1a2b;
-    padding: 100px 20px;
-    text-align: center;
-}
-
-.cards-modulos {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-top: 40px;
-}
-
-.card-modulo {
-    background: #152238;
-    width: 240px;
-    padding: 25px;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: 0.3s;
-    text-align: left;
-}
-
-.card-modulo:hover {
-    transform: translateY(-8px);
-    background: #1b2a44;
-}
-
-.icon {
-    width: 40px;
-    height: 40px;
-    background: #3b82f6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    font-size: 20px;
-}
-
-.titulo-box {
-    max-width: 700px;
-    margin: 0 auto 40px auto;
-    padding: 30px;
-    background: rgba(21, 34, 56, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
-    backdrop-filter: blur(8px);
-    transition: 1s;
-}
-
-.titulo-box:hover {
-    transform: translateY(-8px);
-    background: #1b2a44;
-}
-
-.tag {
-    display: inline-block;
-    padding: 5px 12px;
-    font-size: 12px;
-    border-radius: 20px;
-    background: #3b82f6;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-/* EQUIPE */
-#Equipe {
-    background: #0f1a2b;
-    padding: 80px 20px;
-}
-
-.equipe {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
-    margin-top: 30px;
-}
-
-.equipe img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #3b82f6;
-    transition: 0.3s;
-}
-
-.equipe img:hover {
-    transform: scale(1.1);
-}
-
-.membro {
-    text-align: center;
-    max-width: 150px;
-}
-
-.membro h3 {
-    margin: 10px 0 5px;
-    font-size: 16px;
-}
-
-/* =========================
-   RESPONSIVIDADE GERAL
-========================= */
-* {
-    box-sizing: border-box;
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--chalk);
+  background: var(--pitch-ink);
 }
 
 img {
-    max-width: 100%;
-    display: block;
+  max-width: 100%;
+  display: block;
 }
 
-/* =========================
-   TABLETS / IPAD
-========================= */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+p {
+  line-height: 1.6;
+}
+
+/* =========================================================
+   FUNDO — listras de gramado cortado
+========================================================= */
+.background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    repeating-linear-gradient(
+      100deg,
+      var(--pitch-deep) 0px,
+      var(--pitch-deep) 120px,
+      var(--turf) 120px,
+      var(--turf) 240px
+    );
+  opacity: 0.55;
+}
+
+/* =========================================================
+   NAV
+========================================================= */
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 40px;
+  background: rgba(15, 30, 25, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(245, 241, 230, 0.08);
+  z-index: 1000;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: var(--chalk);
+  text-decoration: none;
+}
+
+.brand svg {
+  width: 30px;
+  height: 30px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.nav a {
+  color: var(--chalk-dim);
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: 0.25s;
+}
+
+.nav a:not(.btn-cadastro):hover {
+  background: rgba(245, 241, 230, 0.08);
+  color: var(--chalk);
+}
+
+.btn-cadastro {
+  background: var(--amber);
+  color: var(--pitch-ink) !important;
+  font-weight: 600;
+  padding: 9px 18px !important;
+  border-radius: 6px;
+}
+
+.btn-cadastro:hover {
+  background: #f0b653;
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 140px 40px 80px;
+  position: relative;
+}
+
+.hero-grid {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 60px;
+  align-items: center;
+  width: 100%;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 18px;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 0 4px rgba(228, 163, 59, 0.2);
+}
+
+.hero h1 {
+  font-size: clamp(48px, 6vw, 76px);
+  line-height: 0.95;
+  color: var(--chalk);
+}
+
+.hero h1 span {
+  color: var(--turf-light);
+  -webkit-text-stroke: 1px var(--chalk-dim);
+}
+
+.hero p {
+  font-size: 18px;
+  color: var(--chalk-dim);
+  max-width: 480px;
+  margin-top: 22px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 34px;
+}
+
+button, .btn-primary {
+  font-family: var(--font-body);
+  font-weight: 600;
+  padding: 14px 28px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  background: var(--amber);
+  color: var(--pitch-ink);
+  transition: 0.25s;
+}
+
+button:hover, .btn-primary:hover {
+  background: #f0b653;
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--chalk);
+  border: 1px solid rgba(245, 241, 230, 0.3) !important;
+}
+
+.btn-ghost:hover {
+  background: rgba(245, 241, 230, 0.08);
+}
+
+/* ---- Cartão de súmula (elemento de assinatura) ---- */
+.matchsheet {
+  background: var(--chalk);
+  color: var(--pitch-ink);
+  border-radius: 10px;
+  padding: 26px 26px 10px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+  transform: rotate(1.5deg);
+}
+
+.matchsheet-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 2px solid var(--pitch-ink);
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+}
+
+.matchsheet-head h3 {
+  font-size: 20px;
+}
+
+.matchsheet-head span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.6;
+}
+
+.matchsheet-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed rgba(15, 30, 25, 0.15);
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.matchsheet-row:last-of-type {
+  border-bottom: none;
+}
+
+.bar {
+  width: 120px;
+  height: 6px;
+  background: rgba(15, 30, 25, 0.12);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: var(--turf);
+  border-radius: 3px;
+}
+
+.bar-fill.alert {
+  background: var(--whistle);
+}
+
+.matchsheet-foot {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 12px 0;
+  color: var(--turf);
+  letter-spacing: 1px;
+}
+
+/* =========================================================
+   SEÇÕES GERAIS
+========================================================= */
+section {
+  padding: 100px 30px;
+  text-align: center;
+}
+
+#info {
+  background: var(--pitch-deep);
+}
+
+#contato {
+  background: var(--pitch-ink);
+}
+
+.section-head {
+  max-width: 640px;
+  margin: 0 auto 50px;
+}
+
+.section-head h2 {
+  font-size: clamp(32px, 4vw, 44px);
+  color: var(--chalk);
+}
+
+.section-head p {
+  color: var(--chalk-dim);
+  margin-top: 14px;
+}
+
+/* CARDS DE INFO */
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.card {
+  background: rgba(245, 241, 230, 0.04);
+  border: 1px solid rgba(245, 241, 230, 0.1);
+  padding: 34px 28px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: left;
+  transition: 0.3s;
+  border-top: 3px solid var(--turf-light);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  background: rgba(245, 241, 230, 0.07);
+}
+
+.card h2 {
+  font-size: 20px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--chalk);
+  margin-bottom: 10px;
+}
+
+.card p {
+  color: var(--chalk-dim);
+  font-size: 14.5px;
+}
+
+/* =========================================================
+   MÓDULOS
+========================================================= */
+#modulos {
+  background: var(--pitch-ink);
+}
+
+.cards-modulos {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.card-modulo {
+  background: rgba(245, 241, 230, 0.04);
+  border: 1px solid rgba(245, 241, 230, 0.1);
+  width: 250px;
+  padding: 28px 24px;
+  border-radius: 10px;
+  text-align: left;
+  transition: 0.3s;
+}
+
+.card-modulo:hover {
+  transform: translateY(-6px);
+  background: rgba(245, 241, 230, 0.07);
+}
+
+.jersey-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: var(--turf);
+  color: var(--chalk);
+  font-family: var(--font-display);
+  font-size: 17px;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.card-modulo h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.card-modulo p {
+  color: var(--chalk-dim);
+  font-size: 14px;
+}
+
+/* =========================================================
+   CONTATO
+========================================================= */
+#contato p {
+  color: var(--chalk-dim);
+  font-family: var(--font-mono);
+  font-size: 14px;
+}
+
+/* =========================================================
+   EQUIPE
+========================================================= */
+#Equipe {
+  background: var(--pitch-deep);
+}
+
+.equipe {
+  display: flex;
+  justify-content: center;
+  gap: 34px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.membro {
+  text-align: center;
+  max-width: 150px;
+}
+
+.membro img {
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--amber);
+  transition: 0.3s;
+  margin: 0 auto;
+}
+
+.membro img:hover {
+  transform: scale(1.08);
+}
+
+.membro h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  margin-top: 12px;
+  letter-spacing: 0;
+}
+
+/* =========================================================
+   RESPONSIVO
+========================================================= */
 @media (max-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
 
-    /* NAVBAR */
-    .nav {
-        padding: 15px 20px;
-        justify-content: space-between;
-    }
+  .hero p {
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-    .nav-links {
-        gap: 18px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+  .hero-actions {
+    justify-content: center;
+  }
 
-    .nav a {
-        font-size: 15px;
-        padding: 8px 12px;
-    }
-
-    .btn-cadastro {
-        position: static;
-    }
-
-    /* HERO */
-    .hero {
-        padding: 120px 20px 60px;
-        height: auto;
-        min-height: 100vh;
-    }
-
-    .overlay {
-        width: 100%;
-        max-width: 90%;
-        padding: 40px 30px;
-    }
-
-    h1 {
-        font-size: 34px;
-        line-height: 1.2;
-    }
-
-    p {
-        font-size: 17px;
-    }
-
-    /* CARDS */
-    .cards,
-    .cards-modulos,
-    .equipe {
-        gap: 18px;
-    }
-
-    .card,
-    .card-modulo {
-        width: 45%;
-        min-width: 260px;
-    }
-
-    /* TÍTULO */
-    .titulo-box {
-        width: 90%;
-        padding: 25px;
-    }
+  .matchsheet {
+    max-width: 420px;
+    margin: 0 auto;
+    transform: rotate(0.5deg);
+  }
 }
 
-/* =========================
-   CELULARES
-========================= */
 @media (max-width: 768px) {
+  .nav {
+    padding: 14px 18px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
 
-    /* NAVBAR */
-    .nav {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
+  .nav-links {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
 
-        padding: 10px;
-        gap: 8px;
-    }
+  .hero {
+    padding: 130px 18px 60px;
+  }
 
-    .nav-links {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 8px;
-        width: 100%;
-    }
+  section {
+    padding: 70px 18px;
+  }
 
-    .nav a {
-        font-size: 13px;
-        padding: 6px 10px;
-    }
+  .cards, .cards-modulos {
+    gap: 16px;
+  }
 
-    .btn-cadastro {
-        position: static;
-        width: auto;
-        padding: 8px 14px;
-        margin-top: 4px;
-    }
+  .card, .card-modulo {
+    width: 100%;
+    max-width: 340px;
+  }
 
-    /* HERO */
-    .hero {
-        padding: 100px 15px 40px;
-        min-height: 100vh;
-    }
-
-    .overlay {
-        padding: 28px 18px;
-        width: 100%;
-    }
-
-    h1 {
-        font-size: 28px;
-    }
-
-    p {
-        font-size: 15px;
-        line-height: 1.5;
-    }
-
-    button {
-        width: 100%;
-        padding: 14px;
-    }
-
-    /* SEÇÕES */
-    section {
-        padding: 60px 18px;
-    }
-
-    /* CARDS */
-    .cards,
-    .cards-modulos,
-    .equipe {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
-
-    .card,
-    .card-modulo {
-        width: 100%;
-        max-width: 320px;
-    }
-
-    .titulo-box {
-        width: 100%;
-        padding: 22px;
-    }
-
-    /* EQUIPE */
-    .equipe img {
-        width: 95px;
-        height: 95px;
-    }
-
-    .membro h3 {
-        font-size: 12px;
-    }
+  .equipe {
+    gap: 22px;
+  }
 }
 
-/* =========================
-   CELULARES PEQUENOS
-========================= */
 @media (max-width: 480px) {
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
 
-    h1 {
-        font-size: 24px;
-    }
-
-    p {
-        font-size: 14px;
-    }
-
-    .overlay {
-        padding: 25px 18px;
-    }
-
-    .card,
-    .card-modulo {
-        padding: 22px;
-    }
-
-    .icon {
-        width: 36px;
-        height: 36px;
-        font-size: 18px;
-    }
+  .hero-actions button {
+    width: 100%;
+  }
 }

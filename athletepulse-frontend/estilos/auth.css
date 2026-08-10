@@ -1,93 +1,154 @@
-/* ===== BASE ===== */
+:root {
+  --pitch-ink: #0f1e19;
+  --pitch-deep: #16302a;
+  --turf: #2f5f4f;
+  --turf-light: #3e7a64;
+  --chalk: #f5f1e6;
+  --chalk-dim: #cfc9b8;
+  --amber: #e4a33b;
+  --whistle: #c1443a;
+
+  --font-display: "Bebas Neue", sans-serif;
+  --font-body: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: var(--font-body);
 }
 
 .auth-page {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
-  background: linear-gradient(135deg, #0f172a, #1e3a8a);
+  padding: 30px;
+  color: var(--chalk);
+  background:
+    repeating-linear-gradient(
+      100deg,
+      var(--pitch-deep) 0px,
+      var(--pitch-deep) 120px,
+      var(--turf) 120px,
+      var(--turf) 240px
+    );
+  background-color: var(--pitch-ink);
 }
 
-/* Fundo por perfil */
-.auth-page.player {
-  background: linear-gradient(135deg, #0f172a, #1e3a8a);
-}
-
-.auth-page.staff {
-  background: linear-gradient(135deg, #111827, #065f46);
-}
-
-/* ===== CARD ===== */
+/* ===== CARD (estilo súmula) ===== */
 .auth-card {
-  width: 360px;
-  padding: 45px;
-  border-radius: 18px;
+  width: 380px;
+  padding: 40px 38px 30px;
+  border-radius: 10px;
+  background: var(--chalk);
+  color: var(--pitch-ink);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+  position: relative;
+}
 
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
+/* Selo de perfil no canto do cartão */
+.role-tag {
+  position: absolute;
+  top: -16px;
+  left: 38px;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: var(--turf);
+  color: var(--chalk);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 17px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
 
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  text-align: center;
-
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+.auth-page.staff .role-tag {
+  background: var(--pitch-ink);
 }
 
 /* ===== TITULO ===== */
 .auth-title {
-  font-size: 24px;
-  margin-bottom: 25px;
+  font-family: var(--font-display);
+  font-size: 30px;
   letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  margin-top: 8px;
+}
+
+.auth-subtitle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--turf);
+  margin-bottom: 24px;
+  display: block;
 }
 
 /* ===== FORM ===== */
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 4px;
 }
 
-/* ===== INPUT ===== */
-.auth-input {
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 2px solid transparent;
-  outline: none;
+.field-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #5c6a63;
+  margin-bottom: 6px;
+  margin-top: 12px;
+}
 
-  background: rgba(255, 255, 255, 0.9);
+.field-label:first-of-type {
+  margin-top: 0;
+}
+
+/* ===== INPUT (estilo linha de ficha, sem pílula) ===== */
+.auth-input {
+  padding: 10px 2px;
+  border: none;
+  border-bottom: 2px solid rgba(15, 30, 25, 0.15);
+  outline: none;
+  background: transparent;
+  color: var(--pitch-ink);
+  font-size: 15px;
   transition: 0.2s;
+  border-radius: 0;
 }
 
 .auth-input:focus {
-  border-color: #3b82f6;
-  transform: scale(1.02);
-  box-shadow: 0 0 0 2px #3b82f6;
+  border-bottom-color: var(--turf);
+}
+
+select.auth-input {
+  cursor: pointer;
 }
 
 /* ===== BOTAO ===== */
 .auth-button {
-  margin-top: 5px;
-  padding: 12px;
-
+  margin-top: 26px;
+  padding: 13px;
   border: none;
-  border-radius: 10px;
-
-  background: #3b82f6;
-  color: white;
-
+  border-radius: 6px;
+  background: var(--amber);
+  color: var(--pitch-ink);
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.25s;
   font-weight: 600;
+  font-size: 15px;
+  font-family: var(--font-body);
 }
 
 .auth-button:hover {
-  background: #2563eb;
+  background: #f0b653;
   transform: translateY(-2px);
 }
 
@@ -99,13 +160,15 @@
 
 /* ===== TEXTO ===== */
 .auth-text {
-  margin-top: 10px;
-  font-size: 14px;
-  opacity: 0.9;
+  margin-top: 18px;
+  font-size: 13.5px;
+  color: #5c6a63;
+  text-align: center;
 }
 
 .auth-link {
-  color: #93c5fd;
+  color: var(--turf);
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -116,14 +179,15 @@
 /* ===== MENSAGEM GERAL (erro de login, erro de servidor, etc.) ===== */
 .auth-alert {
   display: none;
-  background: rgba(248, 113, 113, 0.15);
-  border: 1px solid #f87171;
-  color: #fecaca;
+  background: rgba(193, 68, 58, 0.08);
+  border-left: 3px solid var(--whistle);
+  color: #8f2c24;
   font-size: 13px;
   padding: 10px 12px;
-  border-radius: 8px;
-  margin-bottom: 12px;
+  border-radius: 4px;
+  margin-bottom: 16px;
   text-align: left;
+  font-family: var(--font-mono);
 }
 
 .auth-alert.show {
@@ -132,31 +196,33 @@
 
 /* ===== ERROS DE CAMPO ===== */
 .error {
-  color: #f87171;
-  font-size: 12px;
+  color: var(--whistle);
+  font-size: 11.5px;
   text-align: left;
-  margin-top: -6px;
+  margin-top: 4px;
   margin-bottom: 2px;
   display: block;
   min-height: 14px;
+  font-family: var(--font-mono);
 }
 
 .input-error {
-  border-color: #ef4444 !important;
+  border-bottom-color: var(--whistle) !important;
 }
 
 .input-success {
-  border-color: #22c55e !important;
+  border-bottom-color: var(--turf) !important;
 }
 
 /* ===== RESPONSIVO ===== */
 @media (max-width: 768px) {
   .auth-card {
-    width: 90%;
-    padding: 30px 20px;
+    width: 100%;
+    max-width: 380px;
+    padding: 34px 26px 26px;
   }
 
   .auth-title {
-    font-size: 20px;
+    font-size: 26px;
   }
 }

@@ -5,35 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Cadastro | AthletePulse</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="./estilos/auth.css">
 </head>
 
 <body class="auth-page">
 
   <div class="auth-card">
+    <div class="role-tag">+</div>
     <h1 class="auth-title">Criar Conta</h1>
+    <span class="auth-subtitle">Cadastro no AthletePulse</span>
 
     <div class="auth-alert" id="alertCadastro"></div>
 
     <form id="formCadastro" class="auth-form">
 
-      <input class="auth-input" type="text" id="nome" placeholder="Nome completo">
+      <span class="field-label">Nome completo</span>
+      <input class="auth-input" type="text" id="nome" placeholder="Seu nome" autocomplete="name">
       <small class="error" id="erroNome"></small>
 
-      <input class="auth-input" type="email" id="email" placeholder="Email">
+      <span class="field-label">Email</span>
+      <input class="auth-input" type="email" id="email" placeholder="voce@email.com" autocomplete="email">
       <small class="error" id="erroEmail"></small>
 
+      <span class="field-label">Perfil</span>
       <select class="auth-input" id="tipo">
         <option value="">Selecione o tipo</option>
         <option value="jogador">Jogador</option>
         <option value="comissao">Comissão Técnica</option>
+        <option value="psicologo">Psicóloga(o)</option>
       </select>
       <small class="error" id="erroTipo"></small>
 
-      <input class="auth-input" type="password" id="senha" placeholder="Senha">
+      <span class="field-label">Senha</span>
+      <input class="auth-input" type="password" id="senha" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
       <small class="error" id="erroSenha"></small>
 
-      <input class="auth-input" type="password" id="confirmarSenha" placeholder="Confirmar senha">
+      <span class="field-label">Confirmar senha</span>
+      <input class="auth-input" type="password" id="confirmarSenha" placeholder="Repita a senha" autocomplete="new-password">
       <small class="error" id="erroConfirmar"></small>
 
       <button class="auth-button" type="submit">Cadastrar</button>

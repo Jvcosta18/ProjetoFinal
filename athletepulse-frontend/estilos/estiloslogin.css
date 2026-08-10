@@ -1,3 +1,20 @@
+:root {
+  --pitch-ink: #0f1e19;
+  --pitch-deep: #16302a;
+  --turf: #2f5f4f;
+  --turf-light: #3e7a64;
+  --chalk: #f5f1e6;
+  --chalk-dim: #cfc9b8;
+  --amber: #e4a33b;
+
+  --font-display: "Bebas Neue", sans-serif;
+  --font-body: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
 
 html, body {
   margin: 0;
@@ -5,108 +22,130 @@ html, body {
   height: 100%;
 }
 
-/* BASE */
 body {
   display: flex;
   min-height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: var(--font-body);
+  background:
+    repeating-linear-gradient(
+      100deg,
+      var(--pitch-deep) 0px,
+      var(--pitch-deep) 120px,
+      var(--turf) 120px,
+      var(--turf) 240px
+    );
+  background-color: var(--pitch-ink);
 }
 
-/* LADO ESQUERDO */
-.left {
-  flex: 1;
-  position: relative;
-}
-
-.left img {
-  width: 100%;
-  height: 100vh;
-  object-fit: cover;
-  display: block;
-}
-
-/* ESCURECER IMAGEM */
-.left::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-}
-
-/* LADO DIREITO */
 .right {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #0f172a, #1e3a8a);
-  color: white;
+  color: var(--chalk);
   padding: 20px;
-  box-sizing: border-box;
 }
 
 .container {
   text-align: center;
+  max-width: 640px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 14px;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 0 4px rgba(228, 163, 59, 0.2);
 }
 
 h1 {
-  font-size: 32px;
-  margin-bottom: 30px;
+  font-family: var(--font-display);
+  font-size: 40px;
+  letter-spacing: 0.5px;
+  margin: 0 0 8px;
+}
+
+.container > p {
+  color: var(--chalk-dim);
+  margin-bottom: 34px;
 }
 
 /* CARDS */
 .cards {
   display: flex;
-  gap: 25px;
+  gap: 20px;
   justify-content: center;
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  padding: 50px 40px;
-  border-radius: 18px;
+  background: var(--chalk);
+  color: var(--pitch-ink);
+  padding: 30px 22px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: 0.3s;
-  border: 1px solid rgba(255,255,255,0.1);
-  width: 180px;
+  transition: 0.25s;
+  width: 175px;
+  text-align: left;
 }
 
 .card:hover {
-  transform: translateY(-8px) scale(1.03);
-  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+
+.jersey-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: var(--turf);
+  color: var(--chalk);
+  font-family: var(--font-display);
+  font-size: 17px;
+  margin-bottom: 16px;
 }
 
 .card h2 {
   margin: 0;
-  font-size: 20px;
+  font-size: 17px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.card p {
+  font-size: 13px;
+  color: #4a5852;
+  margin: 6px 0 0;
 }
 
 /* =========================
-   MOBILE / IPAD
+   MOBILE
 ========================= */
 @media (max-width: 768px) {
-
   body {
     flex-direction: column;
-    min-height: 100dvh; /* FIX MODERNO iPhone */
-  }
-
-  .left {
-    height: 220px;
-  }
-
-  .left img {
-    height: 100%;
-  }
-
-  .right {
-    padding: 40px 20px;
+    min-height: 100dvh;
   }
 
   h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 30px;
   }
 
   .cards {
@@ -118,6 +157,5 @@ h1 {
   .card {
     width: 100%;
     max-width: 280px;
-    padding: 30px;
   }
 }

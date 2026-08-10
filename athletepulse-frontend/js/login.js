@@ -51,8 +51,14 @@ form.addEventListener("submit", async function (e) {
     // quando integrarmos o Spring Security de verdade.
     sessionStorage.setItem("token", dados.token);
     sessionStorage.setItem("perfil", perfil);
+    sessionStorage.setItem("nome", dados.nome);
 
-    window.location.href = perfil === "jogador" ? "painel-jogador.html" : "painel-comissao.html";
+    const paginas = {
+      jogador: "painel-jogador.html",
+      comissao: "painel-comissao.html",
+      psicologo: "painel-psicologo.html",
+    };
+    window.location.href = paginas[perfil] || "login.html";
   } catch (err) {
     showAlert(alertEl, err.message || "Erro ao conectar com o servidor.");
   } finally {

@@ -3,10 +3,12 @@
 
 <head>
   <meta charset="UTF-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AthletePulse — Controle de performance e saúde do atleta</title>
 
-  <title>AthletePulse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="./estilos/estilosindex.css">
 </head>
@@ -17,41 +19,84 @@
   <div class="background"></div>
 
   <!-- NAV -->
- <div class="nav">
-  <div class="nav-links">
-    <a href="#home">Home</a>
-    <a href="#info">Saiba mais</a>
-    <a href="#modulos">Módulos</a>
-    <a href="#contato">Contato</a>
-    <a href="#Equipe">Equipe</a>
-  </div>
+  <div class="nav">
+    <a href="#home" class="brand">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="16" r="15" stroke="#e4a33b" stroke-width="2"/>
+        <path d="M5 17 H11 L14 10 L18 24 L21 17 H27" stroke="#f5f1e6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      AthletePulse
+    </a>
 
-  <a href="login.html" class="btn-cadastro">Cadastro</a>
-</div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#info">Saiba mais</a>
+      <a href="#modulos">Módulos</a>
+      <a href="#contato">Contato</a>
+      <a href="#Equipe">Equipe</a>
+    </div>
+
+    <a href="login.html" class="btn-cadastro">Entrar</a>
+  </div>
 
   <!-- HERO -->
   <section id="home" class="hero">
-    <div class="overlay">
-      <h1>AthletePulse</h1>
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Monitoramento diário</div>
+        <h1>Controle o <span>pulso</span><br>do seu elenco</h1>
+        <p>
+          Sono, fadiga, dor muscular e estado emocional de cada atleta,
+          centralizados num único painel — antes que virem lesão ou queda de rendimento.
+        </p>
+        <div class="hero-actions">
+          <button onclick="window.location.href='login.html'">Acessar plataforma</button>
+          <button class="btn-ghost" onclick="window.location.href='#info'">Saiba mais</button>
+        </div>
+      </div>
 
-      <p>
-        Centralize todas as informações do time em um só lugar.
-        A comissão técnica registra dados diariamente e acompanha a evolução dos atletas.
-      </p>
-      <p>
-        Substitua planilhas e mensagens espalhadas por um sistema único de gestão esportiva.
-      </p>
+      <!-- CARTÃO DE SÚMULA (elemento de assinatura) -->
+      <div class="matchsheet">
+        <div class="matchsheet-head">
+          <h3>Check-in diário</h3>
+          <span>Hoje · 07:40</span>
+        </div>
 
-      <button onclick="window.location.href='#info'">
-        Saiba Mais
-      </button>
+        <div class="matchsheet-row">
+          <span>Sono</span>
+          <div class="bar"><div class="bar-fill" style="width: 85%"></div></div>
+          <span>8h12</span>
+        </div>
+
+        <div class="matchsheet-row">
+          <span>Fadiga muscular</span>
+          <div class="bar"><div class="bar-fill" style="width: 40%"></div></div>
+          <span>Baixa</span>
+        </div>
+
+        <div class="matchsheet-row">
+          <span>Estado emocional</span>
+          <div class="bar"><div class="bar-fill" style="width: 78%"></div></div>
+          <span>Bom</span>
+        </div>
+
+        <div class="matchsheet-row">
+          <span>Dor / desconforto</span>
+          <div class="bar"><div class="bar-fill alert" style="width: 22%"></div></div>
+          <span>Joelho D.</span>
+        </div>
+
+        <div class="matchsheet-foot">Enviado à comissão técnica e ao dpto. médico</div>
+      </div>
     </div>
   </section>
 
   <!-- INFO -->
   <section id="info">
-    <h1>Tudo que seu clube precisa em um único lugar</h1>
-    <h3>Substitua planilhas, grupos de WhatsApp e controles avulsos por uma operação profissional.</h3>
+    <div class="section-head">
+      <h2>Tudo que seu clube precisa em um único lugar</h2>
+      <p>Substitua planilhas, grupos de WhatsApp e controles avulsos por uma operação profissional.</p>
+    </div>
 
     <div class="cards">
       <div class="card">
@@ -61,96 +106,82 @@
 
       <div class="card">
         <h2>Operação simples e ágil</h2>
-        <p>Atleta responde em menos de 1 minuto.
-          Comissão recebe insights prontos no painel.
-        </p>
+        <p>Atleta responde em menos de 1 minuto. Comissão recebe insights prontos no painel.</p>
       </div>
 
       <div class="card">
         <h2>Confidencialidade por função</h2>
-        <p>Notas da psicologia ficam restritas.
-          Cada setor vê apenas o que é seu.
-        </p>
+        <p>Notas da psicologia ficam restritas. Cada setor vê apenas o que é seu.</p>
       </div>
     </div>
   </section>
 
   <!-- MÓDULOS -->
   <section id="modulos">
-
-    <div class="titulo-box">
-      <span class="tag">MÓDULOS</span>
-
-      <h1>Um painel para cada função</h1>
-
-      <p>
-        Cada profissional acessa exatamente o que precisa.
-      </p>
+    <div class="section-head">
+      <span class="eyebrow" style="justify-content:center">Módulos</span>
+      <h2>Um painel para cada função</h2>
+      <p>Cada profissional acessa exatamente o que precisa.</p>
     </div>
 
     <div class="cards-modulos">
-
       <div class="card-modulo">
-        <div class="icon">📋</div>
+        <div class="jersey-tag">JG</div>
         <h3>Jogador</h3>
         <p>Check-in diário sobre sono, dor, humor e energia.</p>
       </div>
 
       <div class="card-modulo">
-        <div class="icon">🧠</div>
+        <div class="jersey-tag">PSI</div>
         <h3>Psicologia</h3>
         <p>Acompanhamento mental da equipe com notas privadas e seguras.</p>
       </div>
 
       <div class="card-modulo">
-        <div class="icon">🏋️</div>
+        <div class="jersey-tag">PF</div>
         <h3>Preparação Física</h3>
-        <p>Planejamento de treinos, controle de carga e avaliação de excecucção.</p>
+        <p>Planejamento de treinos, controle de carga e avaliação de execução.</p>
       </div>
 
       <div class="card-modulo">
-        <div class="icon">📊</div>
+        <div class="jersey-tag">CT</div>
         <h3>Comissão Técnica</h3>
         <p>Visão total do elenco para escalações e estratégias mais assertivas.</p>
       </div>
-
     </div>
   </section>
 
   <!-- CONTATO -->
   <section id="contato">
-    <h1>Contato</h1>
-    <p>Entre em contato pelo WhatsApp!</p>
-    <p>Telefone: 47 996733467</p>
+    <div class="section-head">
+      <h2>Contato</h2>
+      <p>Entre em contato pelo WhatsApp!</p>
+    </div>
+    <p>Telefone: 47 99673-3467</p>
     <p>Email: athletepulse@gmail.com</p>
   </section>
 
-
-
-  <!-- Equipe-->
+  <!-- EQUIPE -->
   <section id="Equipe">
-    <h1>Equipe</h1>
+    <div class="section-head">
+      <h2>Equipe</h2>
+    </div>
 
     <div class="equipe">
-
       <div class="membro">
         <img src="https://avatars.githubusercontent.com/u/267778796?v=4">
         <h3>João Ely Vieira</h3>
-
       </div>
 
       <div class="membro">
         <img src="https://avatars.githubusercontent.com/u/199787926?v=4">
-        <h3>João  Scottini</h3>
-
+        <h3>João Scottini</h3>
       </div>
 
       <div class="membro">
         <img src="https://avatars.githubusercontent.com/u/273166753?v=4">
-        <h3>Arthur Zanella </h3>
-
+        <h3>Arthur Zanella</h3>
       </div>
-
     </div>
   </section>
 </body>

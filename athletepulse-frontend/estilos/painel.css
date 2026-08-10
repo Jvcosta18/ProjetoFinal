@@ -1,0 +1,454 @@
+:root {
+  --pitch-ink: #0f1e19;
+  --pitch-deep: #16302a;
+  --turf: #2f5f4f;
+  --turf-light: #3e7a64;
+  --chalk: #f5f1e6;
+  --chalk-dim: #cfc9b8;
+  --amber: #e4a33b;
+  --whistle: #c1443a;
+
+  --font-display: "Bebas Neue", sans-serif;
+  --font-body: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+}
+
+body {
+  background: var(--pitch-ink);
+  color: var(--chalk);
+  min-height: 100vh;
+}
+
+/* ===== TOPBAR ===== */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 28px;
+  background: rgba(245, 241, 230, 0.03);
+  border-bottom: 1px solid rgba(245, 241, 230, 0.08);
+}
+
+.topbar .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+.topbar .brand svg {
+  width: 26px;
+  height: 26px;
+}
+
+.topbar-user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--chalk-dim);
+}
+
+.btn-sair {
+  background: transparent;
+  border: 1px solid rgba(245, 241, 230, 0.25);
+  color: var(--chalk);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: var(--font-body);
+  transition: 0.2s;
+}
+
+.btn-sair:hover {
+  background: rgba(245, 241, 230, 0.08);
+}
+
+/* ===== LAYOUT ===== */
+.painel {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.painel-head {
+  margin-bottom: 30px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 10px;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 0 4px rgba(228, 163, 59, 0.2);
+}
+
+.painel-head h1 {
+  font-family: var(--font-display);
+  font-size: 38px;
+  letter-spacing: 0.5px;
+}
+
+.painel-head p {
+  color: var(--chalk-dim);
+  margin-top: 6px;
+}
+
+/* ===== CARTÃO ===== */
+.painel-card {
+  background: var(--chalk);
+  color: var(--pitch-ink);
+  border-radius: 10px;
+  padding: 30px 30px 26px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  margin-bottom: 26px;
+}
+
+.painel-card h2 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.painel-card .sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--turf);
+  margin-bottom: 20px;
+  display: block;
+}
+
+/* ===== ALERTA GERAL ===== */
+.alert-box {
+  display: none;
+  border-left: 3px solid var(--whistle);
+  background: rgba(193, 68, 58, 0.08);
+  color: #8f2c24;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  padding: 10px 12px;
+  border-radius: 4px;
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.alert-box.show {
+  display: block;
+}
+
+.alert-box.sucesso {
+  border-left-color: var(--turf);
+  background: rgba(47, 95, 79, 0.08);
+  color: var(--turf);
+}
+
+/* ===== FORM ===== */
+.field-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #5c6a63;
+  display: block;
+  margin-bottom: 6px;
+  margin-top: 16px;
+}
+
+.field-label:first-of-type {
+  margin-top: 0;
+}
+
+.field-input {
+  width: 100%;
+  padding: 10px 2px;
+  border: none;
+  border-bottom: 2px solid rgba(15, 30, 25, 0.15);
+  outline: none;
+  background: transparent;
+  color: var(--pitch-ink);
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.field-input:focus {
+  border-bottom-color: var(--turf);
+}
+
+.error {
+  color: var(--whistle);
+  font-size: 11.5px;
+  margin-top: 4px;
+  display: block;
+  min-height: 14px;
+  font-family: var(--font-mono);
+}
+
+/* Escala 1-5 em botões (fadiga / estado emocional) */
+.escala {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.escala button {
+  flex: 1;
+  padding: 10px 0;
+  border-radius: 6px;
+  border: 2px solid rgba(15, 30, 25, 0.12);
+  background: transparent;
+  color: var(--pitch-ink);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.escala button:hover {
+  border-color: var(--turf-light);
+}
+
+.escala button.selecionado {
+  background: var(--turf);
+  border-color: var(--turf);
+  color: var(--chalk);
+}
+
+.escala-legenda {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: #8a958f;
+  margin-top: 4px;
+}
+
+/* Toggle sim/não (dor) */
+.toggle-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.toggle-row button {
+  flex: 1;
+  padding: 10px 0;
+  border-radius: 6px;
+  border: 2px solid rgba(15, 30, 25, 0.12);
+  background: transparent;
+  color: var(--pitch-ink);
+  font-family: var(--font-body);
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.toggle-row button.selecionado[data-valor="sim"] {
+  background: var(--whistle);
+  border-color: var(--whistle);
+  color: var(--chalk);
+}
+
+.toggle-row button.selecionado[data-valor="nao"] {
+  background: var(--turf);
+  border-color: var(--turf);
+  color: var(--chalk);
+}
+
+.campos-dor {
+  display: none;
+  overflow: hidden;
+}
+
+.campos-dor.show {
+  display: block;
+}
+
+textarea.field-input {
+  resize: vertical;
+  min-height: 70px;
+  font-family: var(--font-body);
+}
+
+.btn-primario {
+  margin-top: 24px;
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 6px;
+  background: var(--amber);
+  color: var(--pitch-ink);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  font-family: var(--font-body);
+  transition: 0.2s;
+}
+
+.btn-primario:hover {
+  background: #f0b653;
+  transform: translateY(-2px);
+}
+
+.btn-primario:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===== ESTADO: CHECK-IN JÁ ENVIADO ===== */
+.ja-enviado {
+  display: none;
+  text-align: center;
+  padding: 30px 10px;
+}
+
+.ja-enviado.show {
+  display: block;
+}
+
+.ja-enviado .icone {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--turf);
+  color: var(--chalk);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+  font-family: var(--font-display);
+  font-size: 20px;
+}
+
+.ja-enviado h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.ja-enviado p {
+  color: #5c6a63;
+  font-size: 13.5px;
+}
+
+/* ===== HISTÓRICO (linhas estilo súmula) ===== */
+.historico-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 1fr 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px dashed rgba(15, 30, 25, 0.12);
+  font-size: 13.5px;
+}
+
+.historico-row:last-child {
+  border-bottom: none;
+}
+
+.historico-row .data {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #5c6a63;
+}
+
+.historico-row .metrica-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8a958f;
+  display: block;
+}
+
+.tag-dor {
+  background: rgba(193, 68, 58, 0.12);
+  color: var(--whistle);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.tag-ok {
+  background: rgba(47, 95, 79, 0.12);
+  color: var(--turf);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.vazio {
+  text-align: center;
+  color: #8a958f;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 30px 0;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 640px) {
+  .topbar {
+    padding: 14px 16px;
+  }
+
+  .topbar-user span:not(.btn-sair) {
+    display: none;
+  }
+
+  .painel {
+    padding: 26px 14px 60px;
+  }
+
+  .painel-head h1 {
+    font-size: 30px;
+  }
+
+  .painel-card {
+    padding: 22px 18px 20px;
+  }
+
+  .escala {
+    flex-wrap: wrap;
+  }
+
+  .escala button {
+    min-width: 18%;
+  }
+
+  .historico-row {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 6px;
+  }
+}

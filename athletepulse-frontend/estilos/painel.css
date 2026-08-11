@@ -503,6 +503,70 @@ textarea.field-input {
   font-family: var(--font-mono);
 }
 
+/* ===== PSICOLOGIA ===== */
+.atleta-card.clicavel {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.atleta-card.clicavel:hover {
+  transform: translateY(-4px);
+}
+
+.link-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--chalk-dim);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  margin-bottom: 18px;
+}
+
+.link-voltar:hover {
+  color: var(--chalk);
+}
+
+.nota {
+  padding: 16px 0;
+  border-bottom: 1px dashed rgba(15, 30, 25, 0.12);
+}
+
+.nota:last-child {
+  border-bottom: none;
+}
+
+.nota-head {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #8a958f;
+  margin-bottom: 6px;
+}
+
+.nota-texto {
+  font-size: 14px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.confidencial-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--whistle);
+  background: rgba(193, 68, 58, 0.08);
+  padding: 6px 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
 /* ===== RESPONSIVO ===== */
 @media (max-width: 640px) {
   .topbar {

@@ -1,5 +1,6 @@
 package com.athletepulse.controller;
 
+import com.athletepulse.dto.AtletaResumoResponse;
 import com.athletepulse.dto.CheckInRequest;
 import com.athletepulse.dto.CheckInResponse;
 import com.athletepulse.service.CheckInService;
@@ -30,5 +31,10 @@ public class CheckInController {
     @GetMapping("/meus")
     public ResponseEntity<List<CheckInResponse>> listarMeus(Authentication auth) {
         return ResponseEntity.ok(checkInService.listarMeus(auth.getName()));
+    }
+
+    @GetMapping("/elenco")
+    public ResponseEntity<List<AtletaResumoResponse>> listarElenco(Authentication auth) {
+        return ResponseEntity.ok(checkInService.listarElenco(auth.getName()));
     }
 }

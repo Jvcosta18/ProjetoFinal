@@ -417,6 +417,92 @@ textarea.field-input {
   padding: 30px 0;
 }
 
+/* ===== ELENCO (painel da comissão) ===== */
+.resumo-elenco {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--chalk-dim);
+  margin-bottom: 18px;
+}
+
+.grid-elenco {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.atleta-card {
+  background: var(--chalk);
+  color: var(--pitch-ink);
+  border-radius: 10px;
+  padding: 20px 20px 18px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.atleta-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.atleta-card-head h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15.5px;
+}
+
+.status-badge {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.status-ok {
+  background: rgba(47, 95, 79, 0.12);
+  color: var(--turf);
+}
+
+.status-atencao {
+  background: rgba(228, 163, 59, 0.15);
+  color: #a8730f;
+}
+
+.status-alerta {
+  background: rgba(193, 68, 58, 0.14);
+  color: var(--whistle);
+}
+
+.status-vazio {
+  background: rgba(15, 30, 25, 0.08);
+  color: #6b7570;
+}
+
+.atleta-metricas {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.atleta-metricas .metrica-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8a958f;
+  display: block;
+}
+
+.atleta-vazio {
+  color: #8a958f;
+  font-size: 13px;
+  font-family: var(--font-mono);
+}
+
 /* ===== RESPONSIVO ===== */
 @media (max-width: 640px) {
   .topbar {

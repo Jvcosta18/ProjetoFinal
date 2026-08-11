@@ -1,5 +1,6 @@
 package com.athletepulse.service;
 
+import com.athletepulse.dto.AtletaResumoResponse;
 import com.athletepulse.dto.CheckInRequest;
 import com.athletepulse.dto.CheckInResponse;
 import com.athletepulse.exception.NegocioException;
@@ -58,6 +59,47 @@ public class CheckInService {
                 .stream()
                 .map(this::paraResponse)
                 .toList();
+    }
+
+    public List<AtletaResumoResponse> listarElenco(String emailComissao) {
+        Usuario chamador = usuarioRepository.findByEmail(emailComissao)
+                .orElseThrow(() -> new NegocioException("Usuário não encontrado.", HttpStatus.UNAUTHORIZED));
+
+        if (chamador.getTipo() != TipoUsuario.COMISSAO) {
+            throw new NegocioException("Apenas a comissão técnica pode ver o elenco.", HttpStatus.FORBIDDEN);
+        }
+
+        List<Usuario> atletas = usuarioRepository.findByTipoOrderByNomeAsc(TipoUsuario.JOGADOR);
+
+        return atletas.stream()
+                .map(atleta -> {
+                    CheckIn ultimo = checkInRepository
+                            .findFirstByAtleta_IdOrderByDataCheckinDesc(atleta.getId())
+                            .orElse(null);
+
+                    return new AtletaResumoResponse(
+                            atleta.getId(),
+                            atleta.getNome(),
+                            atleta.getEmail(),
+                            calcularStatus(ultimo),
+                            ultimo != null ? paraResponse(ultimo) : null
+                    );
+                })
+                .toList();
+    }
+
+    private String calcularStatus(CheckIn ultimo) {
+        if (ultimo == null || !ultimo.getDataCheckin().isEqual(LocalDate.now())) {
+            return "sem_checkin";
+        }
+
+        boolean dorForte = ultimo.isTemDor() && ultimo.getIntensidadeDor() != null && ultimo.getIntensidadeDor() >= 4;
+        if (dorForte) {
+            return "alerta";
+        }
+
+        boolean precisaAtencao = ultimo.isTemDor() || ultimo.getFadiga() <= 2 || ultimo.getEstadoEmocional() <= 2;
+        return precisaAtencao ? "atencao" : "ok";
     }
 
     private Usuario buscarAtleta(String email) {

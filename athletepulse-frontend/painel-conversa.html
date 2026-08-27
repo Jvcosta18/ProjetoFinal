@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Elenco | AthletePulse</title>
+<title>Conversa | AthletePulse</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,27 +22,34 @@
       AthletePulse
     </div>
     <div class="topbar-user">
-      <a href="painel-mensagens-equipe.html" class="nav-link-topo">Mensagens</a>
       <span id="nomeUsuario"></span>
       <button class="btn-sair" onclick="fazerLogout()">Sair</button>
     </div>
   </div>
 
   <div class="painel">
-    <div class="painel-head">
-      <div class="eyebrow">Comissão técnica</div>
-      <h1>Visão do elenco</h1>
-      <p>Status de hoje de cada atleta, ordenado por prioridade de atenção.</p>
+    <a href="painel-mensagens-equipe.html" class="link-voltar">← Voltar para conversas</a>
+
+    <div class="chat-box">
+      <div class="chat-head">
+        <h2>Conversa</h2>
+        <span>Atualiza automaticamente</span>
+      </div>
+
+      <div class="chat-mensagens" id="chatMensagens">
+        <div class="vazio">Carregando...</div>
+      </div>
+
+      <form class="chat-input-row" id="formMensagem">
+        <textarea id="textoMensagem" rows="1" maxlength="2000" placeholder="Escreva uma mensagem..."></textarea>
+        <button type="submit" id="btnEnviar">Enviar</button>
+      </form>
     </div>
-
-    <div class="resumo-elenco" id="resumoElenco"></div>
-
-    <div class="grid-elenco" id="gridElenco"></div>
   </div>
 
 <script src="./js/config.js"></script>
 <script src="./js/validators.js"></script>
 <script src="./js/auth-guard.js"></script>
-<script src="./js/painel-comissao.js"></script>
+<script src="./js/painel-conversa.js"></script>
 </body>
 </html>

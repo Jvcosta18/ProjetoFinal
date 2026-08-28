@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu Check-in | AthletePulse</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="./estilos/painel.css">
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="16" cy="16" r="15" stroke="#e4a33b" stroke-width="2"/>
+        <path d="M5 17 H11 L14 10 L18 24 L21 17 H27" stroke="#f5f1e6" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      AthletePulse
+    </div>
+    <div class="topbar-user">
+      <a href="painel-mensagens.html" class="nav-link-topo">Mensagens</a>
+      <span id="nomeUsuario"></span>
+      <button class="btn-sair" onclick="fazerLogout()">Sair</button>
+    </div>
+  </div>
+
+  <div class="painel">
+    <div class="painel-head">
+      <div class="eyebrow">Área do jogador</div>
+      <h1>Seu check-in de hoje</h1>
+      <p>Leva menos de um minuto e ajuda a comissão a cuidar melhor de você.</p>
+    </div>
+
+    <!-- FORMULÁRIO DE CHECK-IN -->
+    <div class="painel-card" id="blocoForm">
+      <h2>Como você está hoje?</h2>
+      <span class="sub">Preenchimento diário</span>
+
+      <div class="alert-box" id="alertCheckin"></div>
+
+      <form id="formCheckin">
+        <span class="field-label">Horas de sono</span>
+        <input class="field-input" type="number" id="horasSono" step="0.5" min="0" max="24" placeholder="Ex: 7.5">
+        <small class="error" id="erroSono"></small>
+
+        <span class="field-label">Nível de fadiga muscular</span>
+        <div class="escala" id="escalaFadiga">
+          <button type="button" data-valor="1">1</button>
+          <button type="button" data-valor="2">2</button>
+          <button type="button" data-valor="3">3</button>
+          <button type="button" data-valor="4">4</button>
+          <button type="button" data-valor="5">5</button>
+        </div>
+        <div class="escala-legenda"><span>Muito cansado</span><span>Muito disposto</span></div>
+        <small class="error" id="erroFadiga"></small>
+
+        <span class="field-label">Estado emocional</span>
+        <div class="escala" id="escalaEmocional">
+          <button type="button" data-valor="1">1</button>
+          <button type="button" data-valor="2">2</button>
+          <button type="button" data-valor="3">3</button>
+          <button type="button" data-valor="4">4</button>
+          <button type="button" data-valor="5">5</button>
+        </div>
+        <div class="escala-legenda"><span>Péssimo</span><span>Ótimo</span></div>
+        <small class="error" id="erroEmocional"></small>
+
+        <span class="field-label">Sente alguma dor ou desconforto?</span>
+        <div class="toggle-row" id="toggleDor">
+          <button type="button" data-valor="sim">Sim</button>
+          <button type="button" data-valor="nao">Não</button>
+        </div>
+        <small class="error" id="erroDor"></small>
+
+        <div class="campos-dor" id="camposDor">
+          <span class="field-label">Onde dói?</span>
+          <input class="field-input" type="text" id="localDor" placeholder="Ex: Joelho direito">
+
+          <span class="field-label">Intensidade da dor</span>
+          <div class="escala" id="escalaIntensidade">
+            <button type="button" data-valor="1">1</button>
+            <button type="button" data-valor="2">2</button>
+            <button type="button" data-valor="3">3</button>
+            <button type="button" data-valor="4">4</button>
+            <button type="button" data-valor="5">5</button>
+          </div>
+          <div class="escala-legenda"><span>Leve</span><span>Intensa</span></div>
+          <small class="error" id="erroIntensidade"></small>
+        </div>
+
+        <span class="field-label">Observações (opcional)</span>
+        <textarea class="field-input" id="observacoes" maxlength="500" placeholder="Algo mais que queira registrar..."></textarea>
+
+        <button class="btn-primario" type="submit" id="btnEnviar">Enviar check-in</button>
+      </form>
+    </div>
+
+    <!-- ESTADO: JÁ ENVIADO HOJE -->
+    <div class="painel-card ja-enviado" id="blocoJaEnviado">
+      <div class="icone">✓</div>
+      <h3>Check-in de hoje já enviado</h3>
+      <p>Volte amanhã pra registrar como você está.</p>
+    </div>
+
+    <!-- HISTÓRICO -->
+    <div class="painel-card">
+      <h2>Histórico</h2>
+      <span class="sub">Seus últimos check-ins</span>
+      <div id="listaHistorico"></div>
+    </div>
+  </div>
+
+<script src="./js/config.js"></script>
+<script src="./js/validators.js"></script>
+<script src="./js/auth-guard.js"></script>
+<script src="./js/painel-jogador.js"></script>
+</body>
+</html>

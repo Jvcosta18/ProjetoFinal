@@ -798,15 +798,20 @@ textarea.field-input {
   transition: 0.2s;
 }
 
+
 .chat-tab:not(.ativo):hover {
   background: rgba(245, 241, 230, 0.08);
 }
+
 
 .chat-tab.ativo {
   background: var(--turf);
   border-color: var(--turf);
   color: var(--chalk);
 }
+
+
+.chat-tab {
   color: var(--chalk-dim);
   text-decoration: none;
   font-family: var(--font-mono);
@@ -815,16 +820,24 @@ textarea.field-input {
   transition: 0.2s;
 }
 
+
+.nav-link-topo,
+.nav-link-topo:visited,
 .nav-link-topo:hover {
-  color: var(--chalk);
+  color: white;
 }
+
 
 @media (max-width: 640px) {
   .chat-box {
     height: 75vh;
   }
 
+
   .bolha {
     max-width: 85%;
   }
 }
+
+
+ 

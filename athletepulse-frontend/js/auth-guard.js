@@ -7,7 +7,7 @@ function exigirAutenticacao(perfilEsperado) {
   const perfil = sessionStorage.getItem("perfil");
 
   if (!token || perfil !== perfilEsperado) {
-    window.location.href = "../auth/login.html";
+    window.location.href = "login.html";
     return null;
   }
 
@@ -20,7 +20,7 @@ function exigirAutenticacao(perfilEsperado) {
 
 function fazerLogout() {
   sessionStorage.clear();
-  window.location.href = "../auth/login.html";
+  window.location.href = "login.html";
 }
 
 // Wrapper de fetch que já injeta o header Authorization.
@@ -39,7 +39,7 @@ async function apiFetch(caminho, opcoes = {}) {
   // Token expirado/invalido - joga de volta pro login.
   if (resposta.status === 401) {
     sessionStorage.clear();
-    window.location.href = "../auth/login.html";
+    window.location.href = "login.html";
     throw new Error("Sessão expirada. Faça login novamente.");
   }
 

@@ -20,22 +20,6 @@
   font-family: var(--font-body);
 }
 
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
-
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 3px solid var(--amber);
-  outline-offset: 3px;
-}
-
 .auth-page {
   min-height: 100vh;
   display: flex;
@@ -52,16 +36,6 @@ textarea:focus-visible {
       var(--turf) 240px
     );
   background-color: var(--pitch-ink);
-  position: relative;
-  overflow-x: hidden;
-}
-
-.auth-page::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(135deg, rgba(245, 241, 230, 0.08), transparent 42%);
 }
 
 /* ===== CARD (estilo súmula) ===== */
@@ -73,13 +47,6 @@ textarea:focus-visible {
   color: var(--pitch-ink);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
   position: relative;
-  border: 1px solid rgba(15, 30, 25, 0.08);
-  animation: auth-enter 0.55s ease both;
-}
-
-@keyframes auth-enter {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Selo de perfil no canto do cartão */
@@ -159,7 +126,6 @@ textarea:focus-visible {
 
 .auth-input:focus {
   border-bottom-color: var(--turf);
-  background: rgba(47, 95, 79, 0.04);
 }
 
 select.auth-input {
@@ -184,10 +150,6 @@ select.auth-input {
 .auth-button:hover {
   background: #f0b653;
   transform: translateY(-2px);
-}
-
-.auth-button:active {
-  transform: translateY(0);
 }
 
 .auth-button:disabled {

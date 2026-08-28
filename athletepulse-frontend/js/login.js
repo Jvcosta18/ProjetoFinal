@@ -58,9 +58,7 @@ form.addEventListener("submit", async function (e) {
       comissao: "painel-comissao.html",
       psicologo: "painel-psicologo.html",
     };
-    window.location.href = paginas[perfil]
-      ? `../painel/${paginas[perfil]}`
-      : "login.html";
+    window.location.href = paginas[perfil] || "login.html";
   } catch (err) {
     showAlert(alertEl, err.message || "Erro ao conectar com o servidor.");
   } finally {

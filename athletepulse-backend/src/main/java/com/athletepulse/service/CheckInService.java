@@ -16,6 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Regras de negócio dos check-ins diários dos atletas.
+ * <p>
+ * Também calcula, para a comissão técnica, uma classificação de risco por
+ * atleta a partir do check-in mais recente ({@link #listarElenco}).
+ */
 @Service
 public class CheckInService {
 
@@ -27,6 +33,16 @@ public class CheckInService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    /**
+     * Registra o check-in diário de um atleta.
+     *
+     * @param emailAutenticado e-mail do usuário autenticado (deve ser um atleta)
+     * @param req              dados do check-in
+     * @return o check-in criado
+     * @throws NegocioException se o usuário não for atleta (403), já tiver
+     *                          enviado check-in hoje (409), ou tiver informado
+     *                          dor sem intensidade (400)
+     */
     @Transactional
     public CheckInResponse registrar(String emailAutenticado, CheckInRequest req) {
         Usuario atleta = buscarAtleta(emailAutenticado);
@@ -53,6 +69,12 @@ public class CheckInService {
         return paraResponse(checkIn);
     }
 
+    /**
+     * Lista o histórico de check-ins do próprio atleta autenticado, do mais recente ao mais antigo.
+     *
+     * @param emailAutenticado e-mail do atleta
+     * @throws NegocioException se o usuário não for atleta (403)
+     */
     public List<CheckInResponse> listarMeus(String emailAutenticado) {
         Usuario atleta = buscarAtleta(emailAutenticado);
         return checkInRepository.findByAtleta_IdOrderByDataCheckinDesc(atleta.getId())
@@ -61,6 +83,13 @@ public class CheckInService {
                 .toList();
     }
 
+    /**
+     * Lista todos os atletas com um resumo do último check-in e a
+     * classificação de risco calculada, para a visão de elenco da comissão técnica.
+     *
+     * @param emailComissao e-mail do usuário autenticado (deve ser da comissão técnica)
+     * @throws NegocioException se o usuário não for da comissão técnica (403)
+     */
     public List<AtletaResumoResponse> listarElenco(String emailComissao) {
         Usuario chamador = usuarioRepository.findByEmail(emailComissao)
                 .orElseThrow(() -> new NegocioException("Usuário não encontrado.", HttpStatus.UNAUTHORIZED));
@@ -88,6 +117,15 @@ public class CheckInService {
                 .toList();
     }
 
+    /**
+     * Calcula a classificação de risco de um atleta a partir do último check-in:
+     * <ul>
+     *   <li>{@code sem_checkin} - não enviou check-in hoje (ou nunca enviou)</li>
+     *   <li>{@code alerta} - dor com intensidade 4 ou 5</li>
+     *   <li>{@code atencao} - há dor (qualquer intensidade), fadiga baixa (≤2) ou emocional baixo (≤2)</li>
+     *   <li>{@code ok} - nenhum dos critérios acima</li>
+     * </ul>
+     */
     private String calcularStatus(CheckIn ultimo) {
         if (ultimo == null || !ultimo.getDataCheckin().isEqual(LocalDate.now())) {
             return "sem_checkin";
@@ -102,6 +140,7 @@ public class CheckInService {
         return precisaAtencao ? "atencao" : "ok";
     }
 
+    /** Busca o usuário pelo e-mail e garante que seu perfil é {@link TipoUsuario#JOGADOR}. */
     private Usuario buscarAtleta(String email) {
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new NegocioException("Usuário não encontrado.", HttpStatus.UNAUTHORIZED));
@@ -113,6 +152,7 @@ public class CheckInService {
         return usuario;
     }
 
+    /** Converte a entidade {@link CheckIn} no DTO de resposta. */
     private CheckInResponse paraResponse(CheckIn c) {
         return new CheckInResponse(
                 c.getId(),

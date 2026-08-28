@@ -21,6 +21,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+/**
+ * Configuração central de segurança da API: rotas públicas, CORS, política
+ * de sessão stateless (JWT) e os beans de autenticação/criptografia de senha.
+ * <p>
+ * Regra de acesso: tudo sob {@code /api/auth/**} é público (cadastro e login);
+ * qualquer outra rota exige um token JWT válido, verificado por
+ * {@link com.athletepulse.security.JwtAuthFilter}.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -34,6 +42,11 @@ public class SecurityConfig {
         this.jwtAuthFilter = jwtAuthFilter;
     }
 
+    /**
+     * Define a cadeia de filtros de segurança: desabilita CSRF (desnecessário
+     * numa API stateless), habilita CORS, remove sessão de servidor e exige
+     * autenticação em todas as rotas exceto {@code /api/auth/**}.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -49,6 +62,10 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Configura o CORS liberando as origens definidas em
+     * {@code app.cors.origens-permitidas} (ex: onde o front-end é servido via Live Server).
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
@@ -62,16 +79,19 @@ public class SecurityConfig {
         return source;
     }
 
+    /** Encoder de senha usado em todo o sistema - hash BCrypt. */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /** Expõe o {@link AuthenticationManager} padrão do Spring como bean, para uso onde for necessário. */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
+    /** Provider de autenticação que liga o {@code UserDetailsService} ao encoder de senha BCrypt. */
     @Bean
     public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();

@@ -13,6 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Regras de negócio de autenticação: cadastro de novos usuários e login.
+ */
 @Service
 public class AuthService {
 
@@ -26,6 +29,12 @@ public class AuthService {
         this.jwtUtil = jwtUtil;
     }
 
+    /**
+     * Cadastra um novo usuário no sistema.
+     *
+     * @param req dados de cadastro
+     * @throws NegocioException se o e-mail já estiver em uso (409) ou o tipo informado for inválido (400)
+     */
     @Transactional
     public void registrar(RegistroRequest req) {
         if (usuarioRepository.existsByEmail(req.email())) {
@@ -43,6 +52,18 @@ public class AuthService {
         usuarioRepository.save(usuario);
     }
 
+    /**
+     * Autentica um usuário e gera seu token JWT.
+     * <p>
+     * Por segurança, a mensagem de erro é sempre a mesma genérica
+     * ("Email ou senha inválidos") tanto para e-mail inexistente, senha
+     * incorreta, quanto para perfil declarado incompatível com o cadastrado -
+     * isso evita que um atacante descubra quais e-mails existem no sistema.
+     *
+     * @param req credenciais de login
+     * @return token JWT e dados básicos do usuário autenticado
+     * @throws NegocioException com status 401 se as credenciais forem inválidas
+     */
     public LoginResponse login(LoginRequest req) {
         Usuario usuario = usuarioRepository.findByEmail(req.email().trim().toLowerCase())
                 // Mensagem genérica de propósito: não revela se o email existe.
@@ -62,6 +83,7 @@ public class AuthService {
         return new LoginResponse(token, usuario.getNome(), usuario.getTipo().name().toLowerCase());
     }
 
+    /** Converte a string de perfil vinda do front (minúscula) para o enum {@link TipoUsuario}. */
     private TipoUsuario converterTipo(String valor) {
         try {
             return TipoUsuario.valueOf(valor.trim().toUpperCase());

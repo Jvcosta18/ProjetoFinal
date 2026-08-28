@@ -18,6 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Regras de negócio da área da psicologia: acompanhamento emocional dos
+ * atletas e notas privadas.
+ * <p>
+ * Todo o conteúdo aqui é isolado dos demais perfis - a comissão técnica não
+ * tem acesso a nenhum endpoint deste service.
+ */
 @Service
 public class PsicologoService {
 
@@ -35,6 +42,14 @@ public class PsicologoService {
         this.notaRepository = notaRepository;
     }
 
+    /**
+     * Lista todos os atletas com um resumo do estado emocional do dia,
+     * calculado a partir do check-in mais recente. Dados físicos (dor,
+     * fadiga) não são incluídos aqui.
+     *
+     * @param emailPsicologo e-mail do usuário autenticado (deve ser psicólogo)
+     * @throws NegocioException se o usuário não for psicólogo (403)
+     */
     public List<AtletaEmocionalResponse> listarAtletas(String emailPsicologo) {
         exigirPsicologo(emailPsicologo);
 
@@ -58,6 +73,17 @@ public class PsicologoService {
                 .toList();
     }
 
+    /**
+     * Lista o histórico de notas de um atleta, da mais recente à mais antiga.
+     * <p>
+     * O histórico é compartilhado entre todos os psicólogos da equipe (não
+     * filtrado por autor), permitindo continuidade no acompanhamento mesmo
+     * que outro profissional tenha escrito a nota.
+     *
+     * @param emailPsicologo e-mail do usuário autenticado (deve ser psicólogo)
+     * @param atletaId       identificador do atleta
+     * @throws NegocioException se o usuário não for psicólogo (403) ou o id não for de um atleta (404/400)
+     */
     public List<NotaResponse> listarNotas(String emailPsicologo, Long atletaId) {
         exigirPsicologo(emailPsicologo);
         buscarAtletaPorId(atletaId);
@@ -68,6 +94,15 @@ public class PsicologoService {
                 .toList();
     }
 
+    /**
+     * Cria uma nova nota de acompanhamento para um atleta.
+     *
+     * @param emailPsicologo e-mail do usuário autenticado (deve ser psicólogo)
+     * @param atletaId       identificador do atleta
+     * @param req            conteúdo da nota
+     * @return a nota criada
+     * @throws NegocioException se o usuário não for psicólogo (403) ou o id não for de um atleta (404/400)
+     */
     @Transactional
     public NotaResponse criarNota(String emailPsicologo, Long atletaId, NotaRequest req) {
         Usuario psicologo = exigirPsicologo(emailPsicologo);
@@ -82,6 +117,15 @@ public class PsicologoService {
         return new NotaResponse(nota.getId(), nota.getTexto(), psicologo.getNome(), nota.getCriadoEm());
     }
 
+    /**
+     * Calcula a classificação emocional de um atleta a partir do check-in de hoje:
+     * <ul>
+     *   <li>{@code sem_dado} - não enviou check-in hoje</li>
+     *   <li>{@code alerta} - estado emocional 1 ou 2</li>
+     *   <li>{@code atencao} - estado emocional 3</li>
+     *   <li>{@code ok} - estado emocional 4 ou 5</li>
+     * </ul>
+     */
     private String calcularStatusEmocional(CheckIn ultimo) {
         if (ultimo == null || !ultimo.getDataCheckin().isEqual(LocalDate.now())) {
             return "sem_dado";
@@ -93,6 +137,7 @@ public class PsicologoService {
         return "ok";
     }
 
+    /** Busca o usuário pelo e-mail e garante que seu perfil é {@link TipoUsuario#PSICOLOGO}. */
     private Usuario exigirPsicologo(String email) {
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new NegocioException("Usuário não encontrado.", HttpStatus.UNAUTHORIZED));
@@ -104,6 +149,7 @@ public class PsicologoService {
         return usuario;
     }
 
+    /** Busca um usuário pelo id e garante que seu perfil é {@link TipoUsuario#JOGADOR}. */
     private Usuario buscarAtletaPorId(Long id) {
         Usuario atleta = usuarioRepository.findById(id)
                 .orElseThrow(() -> new NegocioException("Atleta não encontrado.", HttpStatus.NOT_FOUND));

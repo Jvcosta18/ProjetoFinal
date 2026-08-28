@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Endpoints da área da psicologia: acompanhamento emocional dos atletas e notas privadas.
+ * <p>
+ * Todas as rotas exigem autenticação JWT com perfil {@link com.athletepulse.model.TipoUsuario#PSICOLOGO}.
+ */
 @RestController
 @RequestMapping("/api/psicologo")
 public class PsicologoController {
@@ -22,16 +27,23 @@ public class PsicologoController {
         this.psicologoService = psicologoService;
     }
 
+    /** Lista todos os atletas com resumo do estado emocional do dia. */
     @GetMapping("/atletas")
     public ResponseEntity<List<AtletaEmocionalResponse>> listarAtletas(Authentication auth) {
         return ResponseEntity.ok(psicologoService.listarAtletas(auth.getName()));
     }
 
+    /** Lista o histórico de notas de um atleta específico. */
     @GetMapping("/atletas/{atletaId}/notas")
     public ResponseEntity<List<NotaResponse>> listarNotas(@PathVariable Long atletaId, Authentication auth) {
         return ResponseEntity.ok(psicologoService.listarNotas(auth.getName(), atletaId));
     }
 
+    /**
+     * Cria uma nova nota de acompanhamento para um atleta.
+     *
+     * @return 201 Created com a nota criada
+     */
     @PostMapping("/atletas/{atletaId}/notas")
     public ResponseEntity<NotaResponse> criarNota(
             @PathVariable Long atletaId,

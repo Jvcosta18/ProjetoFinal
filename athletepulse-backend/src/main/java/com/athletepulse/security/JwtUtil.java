@@ -11,6 +11,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * Componente responsável por gerar e validar tokens JWT usados na autenticação stateless da API.
+ * <p>
+ * O segredo de assinatura e o tempo de expiração vêm de {@code application.properties}
+ * ({@code app.jwt.secret} e {@code app.jwt.expiracao-ms}).
+ */
 @Component
 public class JwtUtil {
 
@@ -25,6 +31,13 @@ public class JwtUtil {
         this.expiracaoMs = expiracaoMs;
     }
 
+    /**
+     * Gera um novo token JWT para um usuário autenticado.
+     *
+     * @param email e-mail do usuário, usado como subject do token
+     * @param tipo  perfil do usuário, incluído como claim customizada
+     * @return token JWT assinado, pronto para ser enviado ao front-end
+     */
     public String gerarToken(String email, String tipo) {
         Date agora = new Date();
         Date expiracao = new Date(agora.getTime() + expiracaoMs);
@@ -38,10 +51,22 @@ public class JwtUtil {
                 .compact();
     }
 
+    /**
+     * Extrai o e-mail (subject) contido em um token já validado.
+     *
+     * @param token token JWT
+     * @return e-mail do usuário dono do token
+     */
     public String extrairEmail(String token) {
         return parseClaims(token).getSubject();
     }
 
+    /**
+     * Verifica se um token é válido: assinatura correta e ainda não expirado.
+     *
+     * @param token token JWT a validar
+     * @return {@code true} se o token é válido; {@code false} caso contrário (inválido, expirado ou malformado)
+     */
     public boolean tokenValido(String token) {
         try {
             Claims claims = parseClaims(token);

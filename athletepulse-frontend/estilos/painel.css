@@ -513,7 +513,8 @@ textarea.field-input {
   transform: translateY(-4px);
 }
 
-.link-voltar {
+.link-voltar,
+.link-voltar:visited {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -798,20 +799,17 @@ textarea.field-input {
   transition: 0.2s;
 }
 
-
 .chat-tab:not(.ativo):hover {
   background: rgba(245, 241, 230, 0.08);
 }
-
 
 .chat-tab.ativo {
   background: var(--turf);
   border-color: var(--turf);
   color: var(--chalk);
 }
-
-
-.chat-tab {
+.nav-link-topo,
+.nav-link-topo:visited {
   color: var(--chalk-dim);
   text-decoration: none;
   font-family: var(--font-mono);
@@ -820,24 +818,215 @@ textarea.field-input {
   transition: 0.2s;
 }
 
-
-.nav-link-topo,
-.nav-link-topo:visited,
 .nav-link-topo:hover {
-  color: white;
+  color: var(--chalk);
 }
-
 
 @media (max-width: 640px) {
   .chat-box {
     height: 75vh;
   }
 
-
   .bolha {
     max-width: 85%;
   }
 }
 
+/* ===== TREINOS ===== */
+.treino-titulo {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
 
- 
+.treino-descricao {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #4a5852;
+  white-space: pre-wrap;
+  margin-bottom: 10px;
+}
+
+.tag-intensidade {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 9px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.tag-intensidade.recuperacao { background: rgba(193, 68, 58, 0.12); color: var(--whistle); }
+.tag-intensidade.leve { background: rgba(228, 163, 59, 0.15); color: #a8730f; }
+.tag-intensidade.moderada { background: rgba(47, 95, 79, 0.12); color: var(--turf); }
+.tag-intensidade.intensa { background: rgba(15, 30, 25, 0.1); color: var(--pitch-ink); }
+
+.treino-obs {
+  font-size: 13px;
+  color: #6b7570;
+  font-style: italic;
+  border-top: 1px dashed rgba(15, 30, 25, 0.12);
+  padding-top: 10px;
+  margin-top: 4px;
+}
+
+/* ===== PÁGINA DE TREINOS (comissão) ===== */
+.form-linha {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .form-linha {
+    grid-template-columns: 1fr;
+  }
+}
+
+.select-input {
+  width: 100%;
+  padding: 10px 8px;
+  border: none;
+  border-bottom: 2px solid rgba(15, 30, 25, 0.15);
+  background: transparent;
+  color: var(--pitch-ink);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+}
+
+.atribuicao-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px dashed rgba(15, 30, 25, 0.12);
+}
+
+.atribuicao-row:last-child {
+  border-bottom: none;
+}
+
+.atribuicao-nome {
+  font-weight: 600;
+  font-size: 14.5px;
+}
+
+.atribuicao-status {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+}
+
+.atribuicao-atual {
+  font-size: 13px;
+  color: #6b7570;
+}
+
+.atribuicao-atual .sem-treino {
+  font-style: italic;
+  color: #a2aba5;
+}
+
+.btn-secundario {
+  padding: 9px 16px;
+  border: none;
+  border-radius: 6px;
+  background: var(--turf);
+  color: var(--chalk);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+.btn-secundario:hover {
+  background: var(--turf-light);
+}
+
+.catalogo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px dashed rgba(15, 30, 25, 0.12);
+}
+
+.catalogo-item:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .atribuicao-row {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 8px;
+  }
+}
+
+.catalogo-item {
+  align-items: center;
+}
+
+.catalogo-acoes {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.btn-excluir {
+  padding: 9px 16px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(193, 68, 58, 0.12);
+  color: var(--whistle);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+.btn-excluir:hover {
+  background: var(--whistle);
+  color: var(--chalk);
+}
+
+.btn-cancelar {
+  margin-top: 10px;
+  width: 100%;
+  padding: 11px;
+  border: 1px solid rgba(15, 30, 25, 0.15);
+  border-radius: 6px;
+  background: transparent;
+  color: #5c6a63;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-cancelar:hover {
+  background: rgba(15, 30, 25, 0.04);
+}
+
+@media (max-width: 640px) {
+  .catalogo-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .catalogo-acoes {
+    width: 100%;
+  }
+
+  .catalogo-acoes button {
+    flex: 1;
+  }
+}

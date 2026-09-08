@@ -106,15 +106,32 @@ public class CheckInService {
                             .findFirstByAtleta_IdOrderByDataCheckinDesc(atleta.getId())
                             .orElse(null);
 
+                    String status = calcularStatus(ultimo);
+
                     return new AtletaResumoResponse(
                             atleta.getId(),
                             atleta.getNome(),
                             atleta.getEmail(),
-                            calcularStatus(ultimo),
-                            ultimo != null ? paraResponse(ultimo) : null
+                            status,
+                            ultimo != null ? paraResponse(ultimo) : null,
+                            sugerirIntensidade(status)
                     );
                 })
                 .toList();
+    }
+
+    /**
+     * Sugere uma intensidade de treino a partir do status de risco do atleta.
+     * É apenas uma sugestão para agilizar a atribuição - a comissão pode
+     * escolher qualquer treino do catálogo, independente da sugestão.
+     */
+    private String sugerirIntensidade(String status) {
+        return switch (status) {
+            case "alerta" -> "recuperacao";
+            case "atencao" -> "leve";
+            case "sem_checkin" -> "moderada";
+            default -> "intensa";
+        };
     }
 
     /**

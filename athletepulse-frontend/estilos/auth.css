@@ -166,7 +166,8 @@ select.auth-input {
   text-align: center;
 }
 
-.auth-link {
+.auth-link,
+.auth-link:visited {
   color: var(--turf);
   font-weight: 600;
   text-decoration: none;

@@ -83,7 +83,8 @@ p {
   z-index: 1000;
 }
 
-.brand {
+.brand,
+.brand:visited {
   display: flex;
   align-items: center;
   gap: 10px;

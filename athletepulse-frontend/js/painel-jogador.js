@@ -2,6 +2,38 @@ const usuario = exigirAutenticacao("jogador");
 
 document.getElementById("nomeUsuario").innerText = usuario.nome;
 
+// ===== Treino de hoje =====
+const blocoTreino = document.getElementById("blocoTreino");
+const conteudoTreino = document.getElementById("conteudoTreino");
+
+async function carregarTreinoDeHoje() {
+  try {
+    const resposta = await apiFetch("/treinos/meu");
+
+    if (resposta.status === 204) {
+      blocoTreino.style.display = "none";
+      return;
+    }
+
+    if (!resposta.ok) return;
+
+    const atribuicao = await resposta.json();
+    const t = atribuicao.treino;
+
+    blocoTreino.style.display = "block";
+    conteudoTreino.innerHTML = `
+      <span class="tag-intensidade ${t.intensidade}">${t.intensidade}</span>
+      <div class="treino-titulo">${t.titulo}</div>
+      <div class="treino-descricao">${t.descricao}</div>
+      ${atribuicao.observacoes ? `<div class="treino-obs">Obs. da comissão: ${atribuicao.observacoes}</div>` : ""}
+    `;
+  } catch (err) {
+    // apiFetch já trata sessão expirada.
+  }
+}
+
+carregarTreinoDeHoje();
+
 const form = document.getElementById("formCheckin");
 const btnEnviar = document.getElementById("btnEnviar");
 const alertEl = document.getElementById("alertCheckin");

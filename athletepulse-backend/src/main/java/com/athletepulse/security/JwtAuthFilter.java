@@ -60,11 +60,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             String email = jwtUtil.extrairEmail(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
-            UsernamePasswordAuthenticationToken authToken =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            // isEnabled() reflete o campo "ativo" do usuário (ver UsuarioDetailsService).
+            // Como esse filtro monta a autenticação manualmente (sem passar por um
+            // AuthenticationProvider), essa checagem precisa ser feita explicitamente aqui -
+            // senão uma conta desativada continuaria autenticada até o token expirar.
+            if (userDetails.isEnabled()) {
+                UsernamePasswordAuthenticationToken authToken =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-            SecurityContextHolder.getContext().setAuthentication(authToken);
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+            }
         }
 
         filterChain.doFilter(request, response);

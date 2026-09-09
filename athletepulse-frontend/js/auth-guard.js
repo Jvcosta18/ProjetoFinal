@@ -14,8 +14,38 @@ function exigirAutenticacao(perfilEsperado) {
   return {
     token,
     perfil,
+    id: sessionStorage.getItem("id"),
     nome: sessionStorage.getItem("nome") || "",
   };
+}
+
+// Igual a exigirAutenticacao, mas aceita qualquer perfil - usado em páginas
+// compartilhadas por todos os tipos de usuário, como "Meu Perfil".
+function exigirQualquerAutenticacao() {
+  const token = sessionStorage.getItem("token");
+  const perfil = sessionStorage.getItem("perfil");
+
+  if (!token || !perfil) {
+    window.location.href = "login.html";
+    return null;
+  }
+
+  return {
+    token,
+    perfil,
+    id: sessionStorage.getItem("id"),
+    nome: sessionStorage.getItem("nome") || "",
+  };
+}
+
+// Devolve o usuário para a página inicial do seu próprio painel.
+function paginaDoPainel(perfil) {
+  const paginas = {
+    jogador: "painel-jogador.html",
+    comissao: "painel-comissao.html",
+    psicologo: "painel-psicologo.html",
+  };
+  return paginas[perfil] || "login.html";
 }
 
 function fazerLogout() {

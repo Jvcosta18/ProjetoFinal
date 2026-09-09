@@ -39,8 +39,10 @@ form.addEventListener("submit", async function (e) {
     });
 
     if (!response.ok) {
-      // Mensagem genérica de propósito: não revelar se o email existe ou não.
-      throw new Error("Email ou senha inválidos.");
+      const erro = await response.json().catch(() => null);
+      // Usa a mensagem do back quando existir (ex: "conta desativada"),
+      // com uma genérica de fallback só se a resposta não vier no formato esperado.
+      throw new Error(erro?.mensagem || "Email ou senha inválidos.");
     }
 
     const dados = await response.json();
@@ -50,6 +52,7 @@ form.addEventListener("submit", async function (e) {
     // (mais seguro contra XSS do que localStorage) — ajustamos isso
     // quando integrarmos o Spring Security de verdade.
     sessionStorage.setItem("token", dados.token);
+    sessionStorage.setItem("id", dados.id);
     sessionStorage.setItem("perfil", perfil);
     sessionStorage.setItem("nome", dados.nome);
 

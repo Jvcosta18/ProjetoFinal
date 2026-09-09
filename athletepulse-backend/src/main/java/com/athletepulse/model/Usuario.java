@@ -45,6 +45,14 @@ public class Usuario {
     @Column(nullable = false, length = 20)
     private TipoUsuario tipo;
 
+    /**
+     * Indica se a conta está ativa. Contas desativadas não conseguem fazer
+     * login, mas seus dados históricos (check-ins, mensagens, treinos) são
+     * preservados - por isso o sistema desativa em vez de excluir usuários.
+     */
+    @Column(nullable = false)
+    private boolean ativo = true;
+
     /** Data e hora em que o cadastro foi criado. Preenchido automaticamente. */
     @Column(nullable = false, updatable = false)
     private LocalDateTime criadoEm = LocalDateTime.now();

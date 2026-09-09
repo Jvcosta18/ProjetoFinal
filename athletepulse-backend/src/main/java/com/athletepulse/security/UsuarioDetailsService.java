@@ -30,6 +30,11 @@ public class UsuarioDetailsService implements UserDetailsService {
     /**
      * Carrega um usuário pelo e-mail para uso interno do Spring Security
      * (autenticação via {@link com.athletepulse.security.JwtAuthFilter}).
+     * <p>
+     * Contas desativadas ({@code ativo = false}) são tratadas como
+     * "disabled" pelo Spring Security, o que barra imediatamente qualquer
+     * requisição autenticada - mesmo com um token JWT ainda válido emitido
+     * antes da desativação.
      *
      * @param email e-mail do usuário
      * @return dados de autenticação do usuário
@@ -44,6 +49,7 @@ public class UsuarioDetailsService implements UserDetailsService {
                 .username(usuario.getEmail())
                 .password(usuario.getSenha())
                 .roles(usuario.getTipo().name())
+                .disabled(!usuario.isAtivo())
                 .build();
     }
 }

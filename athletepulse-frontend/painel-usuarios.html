@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Acompanhamento | AthletePulse</title>
+<title>Usuários | AthletePulse</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,7 +22,7 @@
       AthletePulse
     </div>
     <div class="topbar-user">
-      <a href="painel-mensagens-equipe.html" class="nav-link-topo">Mensagens</a>
+      <a href="painel-comissao.html" class="nav-link-topo">Elenco</a>
       <a href="perfil.html" class="nav-link-topo">Perfil</a>
       <span id="nomeUsuario"></span>
       <button class="btn-sair" onclick="fazerLogout()">Sair</button>
@@ -31,19 +31,21 @@
 
   <div class="painel">
     <div class="painel-head">
-      <div class="eyebrow">Psicologia</div>
-      <h1>Acompanhamento emocional</h1>
-      <p>Estado emocional do dia de cada atleta. Clique em alguém para ver o histórico de notas.</p>
+      <div class="eyebrow">Comissão técnica</div>
+      <h1>Usuários</h1>
+      <p>Edite dados, desative contas de quem saiu do clube, ou redefina a senha de alguém que esqueceu.</p>
     </div>
 
-    <div class="resumo-elenco" id="resumoAtletas"></div>
-
-    <div class="grid-elenco" id="gridAtletas"></div>
+    <div class="painel-card">
+      <div id="listaUsuarios">
+        <div class="vazio">Carregando...</div>
+      </div>
+    </div>
   </div>
 
 <script src="./js/config.js"></script>
 <script src="./js/validators.js"></script>
 <script src="./js/auth-guard.js"></script>
-<script src="./js/painel-psicologo.js"></script>
+<script src="./js/painel-usuarios.js"></script>
 </body>
 </html>

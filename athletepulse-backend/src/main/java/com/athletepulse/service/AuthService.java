@@ -73,6 +73,10 @@ public class AuthService {
             throw new NegocioException("Email ou senha inválidos.", HttpStatus.UNAUTHORIZED);
         }
 
+        if (!usuario.isAtivo()) {
+            throw new NegocioException("Esta conta foi desativada. Fale com a comissão técnica.", HttpStatus.FORBIDDEN);
+        }
+
         TipoUsuario perfilInformado = converterTipo(req.perfil());
         if (usuario.getTipo() != perfilInformado) {
             // Ex.: alguém tentando logar como comissão numa conta de jogador.
@@ -80,7 +84,7 @@ public class AuthService {
         }
 
         String token = jwtUtil.gerarToken(usuario.getEmail(), usuario.getTipo().name());
-        return new LoginResponse(token, usuario.getNome(), usuario.getTipo().name().toLowerCase());
+        return new LoginResponse(token, usuario.getId(), usuario.getNome(), usuario.getTipo().name().toLowerCase());
     }
 
     /** Converte a string de perfil vinda do front (minúscula) para o enum {@link TipoUsuario}. */

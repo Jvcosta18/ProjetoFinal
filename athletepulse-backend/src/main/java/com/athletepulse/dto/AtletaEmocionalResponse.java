@@ -12,6 +12,8 @@ package com.athletepulse.dto;
  * @param status                 classificação calculada: {@code "ok"}, {@code "atencao"}, {@code "alerta"} ou {@code "sem_dado"}
  * @param ultimoEstadoEmocional  valor de 1 a 5 do último check-in enviado hoje, ou {@code null} se não houver
  * @param dataUltimoCheckin      data (ISO) do último check-in, ou {@code null} se nunca enviou nenhum
+ * @param quedaConsecutiva       {@code true} se o atleta esteve emocionalmente em "atenção" ou
+ *                               "alerta" nos últimos 3 dias consecutivos (sem falhar nenhum check-in)
  */
 public record AtletaEmocionalResponse(
         Long id,
@@ -20,5 +22,6 @@ public record AtletaEmocionalResponse(
         // "ok" | "atencao" | "alerta" | "sem_dado"
         String status,
         Integer ultimoEstadoEmocional,
-        String dataUltimoCheckin
+        String dataUltimoCheckin,
+        boolean quedaConsecutiva
 ) {}

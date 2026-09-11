@@ -13,6 +13,69 @@ const form = document.getElementById("formNota");
 const btnSalvar = document.getElementById("btnSalvar");
 const alertEl = document.getElementById("alertNota");
 
+const ESCALA_TEXTO = { 1: "Muito baixo", 2: "Baixo", 3: "Médio", 4: "Bom", 5: "Ótimo" };
+
+function formatarDataCurta(isoDate) {
+  const [ano, mes, dia] = isoDate.split("-");
+  return `${dia}/${mes}`;
+}
+
+// ===== Gráfico de evolução emocional =====
+async function carregarGraficoEmocional() {
+  try {
+    const [respAtletas, respHistorico] = await Promise.all([
+      apiFetch("/psicologo/atletas"),
+      apiFetch(`/psicologo/atletas/${atletaId}/emocional`),
+    ]);
+
+    if (!respHistorico.ok) return;
+
+    const atletas = respAtletas.ok ? await respAtletas.json() : [];
+    const atletaAtual = atletas.find((a) => String(a.id) === String(atletaId));
+
+    if (atletaAtual) {
+      document.getElementById("tituloPagina").innerText = `Histórico — ${atletaAtual.nome}`;
+
+      if (atletaAtual.quedaConsecutiva) {
+        const banner = document.getElementById("bannerAlerta");
+        banner.classList.add("show");
+        banner.innerText = "⚠ Este atleta está com estado emocional baixo há 3 dias seguidos. Pode ser um bom momento para uma conversa.";
+      }
+    }
+
+    const historico = (await respHistorico.json()).slice(0, 14).reverse();
+
+    if (historico.length === 0) {
+      document.getElementById("blocoGrafico").style.display = "none";
+      return;
+    }
+
+    const ctx = document.getElementById("graficoEmocional").getContext("2d");
+    new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: historico.map((p) => formatarDataCurta(p.data)),
+        datasets: [
+          {
+            label: "Estado emocional (1-5)",
+            data: historico.map((p) => p.estadoEmocional),
+            borderColor: "#2f5f4f",
+            backgroundColor: "#2f5f4f",
+            tension: 0.3,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        scales: { y: { min: 1, max: 5, ticks: { stepSize: 1 } } },
+        plugins: { legend: { display: false } },
+      },
+    });
+  } catch (err) {
+    // apiFetch já trata sessão expirada.
+  }
+}
+
 function formatarDataHora(iso) {
   const d = new Date(iso);
   return d.toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
@@ -86,4 +149,5 @@ form.addEventListener("submit", async function (e) {
   }
 });
 
+carregarGraficoEmocional();
 carregarNotas();

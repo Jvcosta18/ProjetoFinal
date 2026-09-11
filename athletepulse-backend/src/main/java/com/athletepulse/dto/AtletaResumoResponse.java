@@ -13,6 +13,9 @@ package com.athletepulse.dto;
  * @param intensidadeSugerida intensidade de treino sugerida a partir do {@code status}, em minúsculas
  *                            (ver {@code TreinoService.sugerirIntensidade}) - apenas uma sugestão,
  *                            a comissão pode atribuir qualquer treino do catálogo
+ * @param alertaConsecutivo   {@code true} se o atleta esteve em "atenção" ou "alerta" nos últimos
+ *                            3 dias consecutivos (sem falhar nenhum check-in) - sinaliza um padrão
+ *                            de risco persistente, não só um dia ruim isolado
  */
 public record AtletaResumoResponse(
         Long id,
@@ -21,5 +24,6 @@ public record AtletaResumoResponse(
         // "ok" | "atencao" | "alerta" | "sem_checkin"
         String status,
         CheckInResponse ultimoCheckin,
-        String intensidadeSugerida
+        String intensidadeSugerida,
+        boolean alertaConsecutivo
 ) {}

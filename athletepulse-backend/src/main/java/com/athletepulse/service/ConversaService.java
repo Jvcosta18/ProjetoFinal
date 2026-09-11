@@ -29,15 +29,18 @@ public class ConversaService {
     private final ConversaRepository conversaRepository;
     private final MensagemRepository mensagemRepository;
     private final UsuarioRepository usuarioRepository;
+    private final NotificacaoService notificacaoService;
 
     public ConversaService(
             ConversaRepository conversaRepository,
             MensagemRepository mensagemRepository,
-            UsuarioRepository usuarioRepository
+            UsuarioRepository usuarioRepository,
+            NotificacaoService notificacaoService
     ) {
         this.conversaRepository = conversaRepository;
         this.mensagemRepository = mensagemRepository;
         this.usuarioRepository = usuarioRepository;
+        this.notificacaoService = notificacaoService;
     }
 
     // ===== LADO DO ATLETA =====
@@ -68,7 +71,18 @@ public class ConversaService {
     public MensagemResponse enviarComoAtleta(String emailAtleta, CanalConversa canal, String texto) {
         Usuario atleta = buscarUsuarioPorTipo(emailAtleta, TipoUsuario.JOGADOR);
         Conversa conversa = obterOuCriarConversa(atleta, canal);
-        return salvarMensagem(conversa, atleta, texto, atleta.getId());
+        MensagemResponse resposta = salvarMensagem(conversa, atleta, texto, atleta.getId());
+
+        TipoUsuario tipoEquipe = canal == CanalConversa.COMISSAO ? TipoUsuario.COMISSAO : TipoUsuario.PSICOLOGO;
+        notificacaoService.notificarTodosDoTipo(
+                tipoEquipe,
+                TipoNotificacao.MENSAGEM,
+                "Nova mensagem de " + atleta.getNome(),
+                resumirTexto(texto),
+                "painel-conversa.html?atletaId=" + atleta.getId()
+        );
+
+        return resposta;
     }
 
     // ===== LADO DA EQUIPE (comissão ou psicólogo) =====
@@ -146,7 +160,18 @@ public class ConversaService {
         Usuario atleta = buscarAtletaPorId(atletaId);
 
         Conversa conversa = obterOuCriarConversa(atleta, canal);
-        return salvarMensagem(conversa, staff, texto, staff.getId());
+        MensagemResponse resposta = salvarMensagem(conversa, staff, texto, staff.getId());
+
+        String nomeCanal = canal == CanalConversa.COMISSAO ? "Comissão Técnica" : "Psicologia";
+        notificacaoService.notificar(
+                atleta,
+                TipoNotificacao.MENSAGEM,
+                "Nova mensagem da " + nomeCanal,
+                resumirTexto(texto),
+                "painel-mensagens.html"
+        );
+
+        return resposta;
     }
 
     // ===== INTERNO =====
@@ -194,6 +219,12 @@ public class ConversaService {
                 m.getAutor().getId().equals(idViewer),
                 m.getEnviadaEm()
         );
+    }
+
+    /** Corta o texto da mensagem para caber no campo de descrição da notificação. */
+    private String resumirTexto(String texto) {
+        String limpo = texto.trim();
+        return limpo.length() > 120 ? limpo.substring(0, 117) + "..." : limpo;
     }
 
     /** Determina o canal correspondente ao perfil de um membro da equipe. */

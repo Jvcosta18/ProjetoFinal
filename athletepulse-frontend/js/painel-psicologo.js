@@ -32,7 +32,11 @@ async function carregarAtletas() {
       return;
     }
 
-    atletas.sort((a, b) => ORDEM_STATUS[a.status] - ORDEM_STATUS[b.status]);
+    atletas.sort((a, b) => {
+      const diff = ORDEM_STATUS[a.status] - ORDEM_STATUS[b.status];
+      if (diff !== 0) return diff;
+      return (b.quedaConsecutiva ? 1 : 0) - (a.quedaConsecutiva ? 1 : 0);
+    });
 
     const alertas = atletas.filter((a) => a.status === "alerta").length;
     resumo.innerText = `${atletas.length} atletas · ${alertas} em alerta emocional`;
@@ -57,6 +61,7 @@ function renderCard(atleta) {
         <h3>${atleta.nome}</h3>
         <span class="status-badge ${info.classe}">${info.label}</span>
       </div>
+      ${atleta.quedaConsecutiva ? '<div class="tag-consecutivo">⚠ Emocional baixo há 3 dias seguidos</div>' : ""}
       ${estadoTexto}
     </div>
   `;

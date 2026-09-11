@@ -3,6 +3,7 @@ package com.athletepulse.service;
 import com.athletepulse.dto.AtletaEmocionalResponse;
 import com.athletepulse.dto.NotaRequest;
 import com.athletepulse.dto.NotaResponse;
+import com.athletepulse.dto.PontoEmocionalResponse;
 import com.athletepulse.exception.NegocioException;
 import com.athletepulse.model.CheckIn;
 import com.athletepulse.model.NotaPsicologica;
@@ -57,9 +58,8 @@ public class PsicologoService {
 
         return atletas.stream()
                 .map(atleta -> {
-                    CheckIn ultimo = checkInRepository
-                            .findFirstByAtleta_IdOrderByDataCheckinDesc(atleta.getId())
-                            .orElse(null);
+                    List<CheckIn> historico = checkInRepository.findByAtleta_IdOrderByDataCheckinDesc(atleta.getId());
+                    CheckIn ultimo = historico.isEmpty() ? null : historico.get(0);
 
                     return new AtletaEmocionalResponse(
                             atleta.getId(),
@@ -67,9 +67,28 @@ public class PsicologoService {
                             atleta.getEmail(),
                             calcularStatusEmocional(ultimo),
                             ultimo != null ? ultimo.getEstadoEmocional() : null,
-                            ultimo != null ? ultimo.getDataCheckin().toString() : null
+                            ultimo != null ? ultimo.getDataCheckin().toString() : null,
+                            temQuedaConsecutiva(historico)
                     );
                 })
+                .toList();
+    }
+
+    /**
+     * Lista o histórico emocional de um atleta (apenas data e estado
+     * emocional de cada dia), para o gráfico de evolução no painel do psicólogo.
+     *
+     * @param emailPsicologo e-mail do usuário autenticado (deve ser psicólogo)
+     * @param atletaId       identificador do atleta
+     * @throws NegocioException se o usuário não for psicólogo (403) ou o id não for de um atleta (404/400)
+     */
+    public List<PontoEmocionalResponse> listarHistoricoEmocional(String emailPsicologo, Long atletaId) {
+        exigirPsicologo(emailPsicologo);
+        buscarAtletaPorId(atletaId);
+
+        return checkInRepository.findByAtleta_IdOrderByDataCheckinDesc(atletaId)
+                .stream()
+                .map(c -> new PontoEmocionalResponse(c.getDataCheckin(), c.getEstadoEmocional()))
                 .toList();
     }
 
@@ -131,10 +150,49 @@ public class PsicologoService {
             return "sem_dado";
         }
 
-        int estado = ultimo.getEstadoEmocional();
+        return calcularStatusEmocionalPontual(ultimo);
+    }
+
+    /**
+     * Igual a {@link #calcularStatusEmocional}, mas avalia um check-in
+     * específico sem exigir que seja de hoje - usado para analisar dias
+     * passados na detecção de queda emocional consecutiva.
+     */
+    private String calcularStatusEmocionalPontual(CheckIn checkIn) {
+        int estado = checkIn.getEstadoEmocional();
         if (estado <= 2) return "alerta";
         if (estado == 3) return "atencao";
         return "ok";
+    }
+
+    /**
+     * Verifica se os 3 check-ins mais recentes de um atleta (já ordenados do
+     * mais novo ao mais antigo) formam uma sequência de 3 dias consecutivos
+     * em que o estado emocional foi "atenção" ou "alerta" em todos eles.
+     */
+    private boolean temQuedaConsecutiva(List<CheckIn> historicoDescendente) {
+        if (historicoDescendente.size() < 3) {
+            return false;
+        }
+
+        for (int i = 0; i < 3; i++) {
+            CheckIn atual = historicoDescendente.get(i);
+
+            String statusDoDia = calcularStatusEmocionalPontual(atual);
+            if (!statusDoDia.equals("atencao") && !statusDoDia.equals("alerta")) {
+                return false;
+            }
+
+            if (i < 2) {
+                CheckIn anterior = historicoDescendente.get(i + 1);
+                boolean diaSeguido = atual.getDataCheckin().minusDays(1).isEqual(anterior.getDataCheckin());
+                if (!diaSeguido) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /** Busca o usuário pelo e-mail e garante que seu perfil é {@link TipoUsuario#PSICOLOGO}. */

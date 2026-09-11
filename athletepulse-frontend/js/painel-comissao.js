@@ -34,7 +34,11 @@ async function carregarElenco() {
       return;
     }
 
-    atletas.sort((a, b) => ORDEM_STATUS[a.status] - ORDEM_STATUS[b.status]);
+    atletas.sort((a, b) => {
+      const diff = ORDEM_STATUS[a.status] - ORDEM_STATUS[b.status];
+      if (diff !== 0) return diff;
+      return (b.alertaConsecutivo ? 1 : 0) - (a.alertaConsecutivo ? 1 : 0);
+    });
 
     const alertas = atletas.filter((a) => a.status === "alerta").length;
     const atencoes = atletas.filter((a) => a.status === "atencao").length;
@@ -64,11 +68,12 @@ function renderCard(atleta) {
     : `<p class="atleta-vazio">Nenhum check-in enviado ainda.</p>`;
 
   return `
-    <div class="atleta-card">
+    <div class="atleta-card clicavel" onclick="window.location.href='painel-atleta-detalhe.html?id=${atleta.id}'">
       <div class="atleta-card-head">
         <h3>${atleta.nome}</h3>
         <span class="status-badge ${info.classe}">${info.label}</span>
       </div>
+      ${atleta.alertaConsecutivo ? '<div class="tag-consecutivo">⚠ Em risco há 3 dias seguidos</div>' : ""}
       ${detalhes}
     </div>
   `;

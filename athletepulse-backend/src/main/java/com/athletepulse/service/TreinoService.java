@@ -32,15 +32,18 @@ public class TreinoService {
     private final TreinoRepository treinoRepository;
     private final TreinoAtribuidoRepository treinoAtribuidoRepository;
     private final UsuarioRepository usuarioRepository;
+    private final NotificacaoService notificacaoService;
 
     public TreinoService(
             TreinoRepository treinoRepository,
             TreinoAtribuidoRepository treinoAtribuidoRepository,
-            UsuarioRepository usuarioRepository
+            UsuarioRepository usuarioRepository,
+            NotificacaoService notificacaoService
     ) {
         this.treinoRepository = treinoRepository;
         this.treinoAtribuidoRepository = treinoAtribuidoRepository;
         this.usuarioRepository = usuarioRepository;
+        this.notificacaoService = notificacaoService;
     }
 
     /**
@@ -110,6 +113,15 @@ public class TreinoService {
         atribuicao.setAtualizadoEm(java.time.LocalDateTime.now());
 
         treinoAtribuidoRepository.save(atribuicao);
+
+        notificacaoService.notificar(
+                atleta,
+                TipoNotificacao.TREINO,
+                "Novo treino atribuído",
+                treino.getTitulo(),
+                "painel-jogador.html"
+        );
+
         return paraResponseAtribuicao(atribuicao);
     }
 

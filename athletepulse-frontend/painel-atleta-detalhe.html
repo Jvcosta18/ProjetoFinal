@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notas | AthletePulse</title>
+<title>Detalhe do Atleta | AthletePulse</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,47 +29,24 @@
   </div>
 
   <div class="painel">
-    <a href="painel-psicologo.html" class="link-voltar">← Voltar para todos os atletas</a>
+    <a href="painel-comissao.html" class="link-voltar">← Voltar para o elenco</a>
 
     <div class="painel-head">
-      <div class="eyebrow">Psicologia</div>
-      <h1 id="tituloPagina">Histórico de acompanhamento</h1>
+      <div class="eyebrow">Comissão técnica</div>
+      <h1 id="nomeAtleta">Atleta</h1>
+      <p>Evolução dos últimos check-ins.</p>
     </div>
 
     <div class="alert-box" id="bannerAlerta"></div>
 
-    <span class="confidencial-tag">🔒 Visível apenas para a psicologia</span>
-
-    <div class="painel-card" id="blocoGrafico">
-      <h2>Evolução emocional</h2>
-      <span class="sub">Últimos check-ins</span>
-      <canvas id="graficoEmocional" height="90"></canvas>
-    </div>
-
-    <div class="painel-card">
-      <h2>Nova nota</h2>
-      <span class="sub">Registro de sessão ou observação</span>
-
-      <div class="alert-box" id="alertNota"></div>
-
-      <form id="formNota">
-        <textarea class="field-input" id="texto" rows="4" maxlength="2000" placeholder="Escreva aqui..."></textarea>
-        <small class="error" id="erroTexto"></small>
-
-        <button class="btn-primario" type="submit" id="btnSalvar">Salvar nota</button>
-      </form>
-    </div>
-
-    <div class="painel-card">
-      <h2>Histórico</h2>
-      <span class="sub">Notas anteriores</span>
-      <div id="listaNotas"></div>
+    <div id="conteudo">
+      <div class="vazio">Carregando...</div>
     </div>
   </div>
 
 <script src="./js/config.js"></script>
 <script src="./js/validators.js"></script>
 <script src="./js/auth-guard.js"></script>
-<script src="./js/painel-psicologo-atleta.js"></script>
+<script src="./js/painel-atleta-detalhe.js"></script>
 </body>
 </html>

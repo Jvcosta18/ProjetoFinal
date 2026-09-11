@@ -55,4 +55,17 @@ public class CheckInController {
     public ResponseEntity<List<AtletaResumoResponse>> listarElenco(Authentication auth) {
         return ResponseEntity.ok(checkInService.listarElenco(auth.getName()));
     }
+
+    /**
+     * Lista o histórico completo de check-ins de um atleta específico, para
+     * a comissão técnica (usado no gráfico de evolução e histórico detalhado).
+     *
+     * @return 200 OK com a lista; 403 se o autenticado não for da comissão técnica
+     */
+    @GetMapping("/atleta/{atletaId}")
+    public ResponseEntity<List<CheckInResponse>> listarHistoricoDoAtleta(
+            @PathVariable Long atletaId, Authentication auth
+    ) {
+        return ResponseEntity.ok(checkInService.listarHistoricoDoAtleta(auth.getName(), atletaId));
+    }
 }

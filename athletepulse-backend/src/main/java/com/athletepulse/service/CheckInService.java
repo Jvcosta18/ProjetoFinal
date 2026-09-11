@@ -5,6 +5,7 @@ import com.athletepulse.dto.CheckInRequest;
 import com.athletepulse.dto.CheckInResponse;
 import com.athletepulse.exception.NegocioException;
 import com.athletepulse.model.CheckIn;
+import com.athletepulse.model.TipoNotificacao;
 import com.athletepulse.model.TipoUsuario;
 import com.athletepulse.model.Usuario;
 import com.athletepulse.repository.CheckInRepository;
@@ -27,14 +28,24 @@ public class CheckInService {
 
     private final CheckInRepository checkInRepository;
     private final UsuarioRepository usuarioRepository;
+    private final NotificacaoService notificacaoService;
 
-    public CheckInService(CheckInRepository checkInRepository, UsuarioRepository usuarioRepository) {
+    public CheckInService(
+            CheckInRepository checkInRepository,
+            UsuarioRepository usuarioRepository,
+            NotificacaoService notificacaoService
+    ) {
         this.checkInRepository = checkInRepository;
         this.usuarioRepository = usuarioRepository;
+        this.notificacaoService = notificacaoService;
     }
 
     /**
      * Registra o check-in diário de um atleta.
+     * <p>
+     * Se o check-in resultar em status físico "alerta", notifica toda a
+     * comissão técnica. Se o estado emocional relatado for muito baixo
+     * (1 ou 2), notifica toda a equipe de psicologia.
      *
      * @param emailAutenticado e-mail do usuário autenticado (deve ser um atleta)
      * @param req              dados do check-in
@@ -66,7 +77,37 @@ public class CheckInService {
         checkIn.setObservacoes(req.observacoes());
 
         checkInRepository.save(checkIn);
+
+        notificarSeNecessario(atleta, checkIn);
+
         return paraResponse(checkIn);
+    }
+
+    /**
+     * Dispara notificações para a comissão técnica (alerta físico) e/ou
+     * psicologia (alerta emocional) quando o check-in indicar risco.
+     */
+    private void notificarSeNecessario(Usuario atleta, CheckIn checkIn) {
+        String statusFisico = calcularStatusPontual(checkIn);
+        if (statusFisico.equals("alerta")) {
+            notificacaoService.notificarTodosDoTipo(
+                    TipoUsuario.COMISSAO,
+                    TipoNotificacao.ALERTA_ATLETA,
+                    atleta.getNome() + " está em alerta",
+                    "Dor intensa relatada no check-in de hoje.",
+                    "painel-atleta-detalhe.html?id=" + atleta.getId()
+            );
+        }
+
+        if (checkIn.getEstadoEmocional() <= 2) {
+            notificacaoService.notificarTodosDoTipo(
+                    TipoUsuario.PSICOLOGO,
+                    TipoNotificacao.ALERTA_ATLETA,
+                    atleta.getNome() + " está em alerta emocional",
+                    "Estado emocional baixo relatado no check-in de hoje.",
+                    "painel-psicologo-atleta.html?id=" + atleta.getId()
+            );
+        }
     }
 
     /**
@@ -78,6 +119,35 @@ public class CheckInService {
     public List<CheckInResponse> listarMeus(String emailAutenticado) {
         Usuario atleta = buscarAtleta(emailAutenticado);
         return checkInRepository.findByAtleta_IdOrderByDataCheckinDesc(atleta.getId())
+                .stream()
+                .map(this::paraResponse)
+                .toList();
+    }
+
+    /**
+     * Lista o histórico completo de check-ins de um atleta específico, para
+     * a comissão técnica visualizar (ex: gráfico de evolução).
+     *
+     * @param emailComissao e-mail do usuário autenticado (deve ser da comissão técnica)
+     * @param atletaId      identificador do atleta
+     * @throws NegocioException se o usuário não for da comissão (403) ou o id não for de um atleta (404/400)
+     */
+    public List<CheckInResponse> listarHistoricoDoAtleta(String emailComissao, Long atletaId) {
+        Usuario chamador = usuarioRepository.findByEmail(emailComissao)
+                .orElseThrow(() -> new NegocioException("Usuário não encontrado.", HttpStatus.UNAUTHORIZED));
+
+        if (chamador.getTipo() != TipoUsuario.COMISSAO) {
+            throw new NegocioException("Apenas a comissão técnica pode ver o histórico do atleta.", HttpStatus.FORBIDDEN);
+        }
+
+        Usuario atleta = usuarioRepository.findById(atletaId)
+                .orElseThrow(() -> new NegocioException("Atleta não encontrado.", HttpStatus.NOT_FOUND));
+
+        if (atleta.getTipo() != TipoUsuario.JOGADOR) {
+            throw new NegocioException("Usuário informado não é um atleta.", HttpStatus.BAD_REQUEST);
+        }
+
+        return checkInRepository.findByAtleta_IdOrderByDataCheckinDesc(atletaId)
                 .stream()
                 .map(this::paraResponse)
                 .toList();
@@ -102,9 +172,8 @@ public class CheckInService {
 
         return atletas.stream()
                 .map(atleta -> {
-                    CheckIn ultimo = checkInRepository
-                            .findFirstByAtleta_IdOrderByDataCheckinDesc(atleta.getId())
-                            .orElse(null);
+                    List<CheckIn> historico = checkInRepository.findByAtleta_IdOrderByDataCheckinDesc(atleta.getId());
+                    CheckIn ultimo = historico.isEmpty() ? null : historico.get(0);
 
                     String status = calcularStatus(ultimo);
 
@@ -114,10 +183,42 @@ public class CheckInService {
                             atleta.getEmail(),
                             status,
                             ultimo != null ? paraResponse(ultimo) : null,
-                            sugerirIntensidade(status)
+                            sugerirIntensidade(status),
+                            temRiscoConsecutivo(historico)
                     );
                 })
                 .toList();
+    }
+
+    /**
+     * Verifica se os 3 check-ins mais recentes de um atleta (já ordenados do
+     * mais novo ao mais antigo) formam uma sequência de 3 dias consecutivos
+     * (sem nenhum dia pulado) em que todos classificam como "atenção" ou
+     * "alerta" - um padrão persistente, diferente de um dia ruim isolado.
+     */
+    private boolean temRiscoConsecutivo(List<CheckIn> historicoDescendente) {
+        if (historicoDescendente.size() < 3) {
+            return false;
+        }
+
+        for (int i = 0; i < 3; i++) {
+            CheckIn atual = historicoDescendente.get(i);
+
+            String statusDoDia = calcularStatusPontual(atual);
+            if (!statusDoDia.equals("atencao") && !statusDoDia.equals("alerta")) {
+                return false;
+            }
+
+            if (i < 2) {
+                CheckIn anterior = historicoDescendente.get(i + 1);
+                boolean diaSeguido = atual.getDataCheckin().minusDays(1).isEqual(anterior.getDataCheckin());
+                if (!diaSeguido) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -148,12 +249,21 @@ public class CheckInService {
             return "sem_checkin";
         }
 
-        boolean dorForte = ultimo.isTemDor() && ultimo.getIntensidadeDor() != null && ultimo.getIntensidadeDor() >= 4;
+        return calcularStatusPontual(ultimo);
+    }
+
+    /**
+     * Igual a {@link #calcularStatus}, mas avalia um check-in específico sem
+     * exigir que seja de hoje - usado para analisar dias passados na
+     * detecção de risco consecutivo ({@link #temRiscoConsecutivo}).
+     */
+    private String calcularStatusPontual(CheckIn checkIn) {
+        boolean dorForte = checkIn.isTemDor() && checkIn.getIntensidadeDor() != null && checkIn.getIntensidadeDor() >= 4;
         if (dorForte) {
             return "alerta";
         }
 
-        boolean precisaAtencao = ultimo.isTemDor() || ultimo.getFadiga() <= 2 || ultimo.getEstadoEmocional() <= 2;
+        boolean precisaAtencao = checkIn.isTemDor() || checkIn.getFadiga() <= 2 || checkIn.getEstadoEmocional() <= 2;
         return precisaAtencao ? "atencao" : "ok";
     }
 

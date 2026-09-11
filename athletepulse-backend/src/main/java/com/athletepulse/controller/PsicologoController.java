@@ -3,6 +3,7 @@ package com.athletepulse.controller;
 import com.athletepulse.dto.AtletaEmocionalResponse;
 import com.athletepulse.dto.NotaRequest;
 import com.athletepulse.dto.NotaResponse;
+import com.athletepulse.dto.PontoEmocionalResponse;
 import com.athletepulse.service.PsicologoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,14 @@ public class PsicologoController {
     @GetMapping("/atletas/{atletaId}/notas")
     public ResponseEntity<List<NotaResponse>> listarNotas(@PathVariable Long atletaId, Authentication auth) {
         return ResponseEntity.ok(psicologoService.listarNotas(auth.getName(), atletaId));
+    }
+
+    /** Lista o histórico emocional de um atleta (para o gráfico de evolução). */
+    @GetMapping("/atletas/{atletaId}/emocional")
+    public ResponseEntity<List<PontoEmocionalResponse>> listarHistoricoEmocional(
+            @PathVariable Long atletaId, Authentication auth
+    ) {
+        return ResponseEntity.ok(psicologoService.listarHistoricoEmocional(auth.getName(), atletaId));
     }
 
     /**

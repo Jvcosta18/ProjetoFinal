@@ -119,7 +119,7 @@ public class TreinoService {
                 TipoNotificacao.TREINO,
                 "Novo treino atribuído",
                 treino.getTitulo(),
-                "painel-jogador.html"
+                "../jogador/painel-jogador.html"
         );
 
         return paraResponseAtribuicao(atribuicao);

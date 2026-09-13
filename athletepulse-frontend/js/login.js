@@ -57,9 +57,9 @@ form.addEventListener("submit", async function (e) {
     sessionStorage.setItem("nome", dados.nome);
 
     const paginas = {
-      jogador: "painel-jogador.html",
-      comissao: "painel-comissao.html",
-      psicologo: "painel-psicologo.html",
+      jogador: "../jogador/painel-jogador.html",
+      comissao: "../comissao/painel-comissao.html",
+      psicologo: "../psicologo/painel-psicologo.html",
     };
     window.location.href = paginas[perfil] || "login.html";
   } catch (err) {

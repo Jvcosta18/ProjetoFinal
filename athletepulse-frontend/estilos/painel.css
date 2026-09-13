@@ -1279,3 +1279,207 @@ canvas {
     left: -60px;
   }
 }
+
+/* =========================================================
+   ANIMAÇÕES E POLIMENTO VISUAL
+========================================================= */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulseAlerta {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(193, 68, 58, 0.35); }
+  50% { box-shadow: 0 0 0 5px rgba(193, 68, 58, 0); }
+}
+
+@keyframes pulsarSuave {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.topbar {
+  animation: fadeIn 0.4s ease;
+}
+
+.painel {
+  animation: fadeInUp 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.painel-card {
+  animation: fadeInUp 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: backwards;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.painel-card:nth-of-type(1) { animation-delay: 0.02s; }
+.painel-card:nth-of-type(2) { animation-delay: 0.08s; }
+.painel-card:nth-of-type(3) { animation-delay: 0.14s; }
+.painel-card:nth-of-type(4) { animation-delay: 0.2s; }
+
+.atleta-card {
+  animation: fadeInUp 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: backwards;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.atleta-card:hover {
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
+}
+
+.grid-elenco .atleta-card:nth-child(1) { animation-delay: 0.02s; }
+.grid-elenco .atleta-card:nth-child(2) { animation-delay: 0.06s; }
+.grid-elenco .atleta-card:nth-child(3) { animation-delay: 0.1s; }
+.grid-elenco .atleta-card:nth-child(4) { animation-delay: 0.14s; }
+.grid-elenco .atleta-card:nth-child(5) { animation-delay: 0.18s; }
+.grid-elenco .atleta-card:nth-child(6) { animation-delay: 0.22s; }
+
+/* Botões - transição mais suave e "resposta" ao clique */
+.btn-primario,
+.btn-secundario,
+.btn-sair,
+.btn-excluir,
+.btn-cancelar,
+.btn-cancelar-inline {
+  transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.btn-primario:hover {
+  box-shadow: 0 8px 20px rgba(228, 163, 59, 0.35);
+}
+
+.btn-primario:active,
+.btn-secundario:active,
+.btn-excluir:active {
+  transform: scale(0.97);
+}
+
+.btn-sair:hover {
+  transform: translateY(-1px);
+}
+
+/* Links de navegação do topo - sublinhado animado */
+.nav-link-topo {
+  position: relative;
+}
+
+.nav-link-topo::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0;
+  height: 1.5px;
+  background: var(--amber);
+  transition: width 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-link-topo:hover::after {
+  width: 100%;
+}
+
+/* Status de alerta chama mais atenção */
+.status-alerta {
+  animation: pulseAlerta 2s infinite;
+}
+
+.tag-consecutivo {
+  animation: pulseAlerta 2s infinite;
+}
+
+/* Estados vazios/carregando ganham vida */
+.vazio {
+  animation: pulsarSuave 1.6s ease-in-out infinite;
+}
+
+/* Escalas e toggles - resposta mais tátil */
+.escala button,
+.toggle-row button {
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.escala button:active,
+.toggle-row button:active {
+  transform: scale(0.94);
+}
+
+.escala button.selecionado,
+.toggle-row button.selecionado {
+  animation: fadeIn 0.2s ease;
+}
+
+/* Campos de formulário - foco mais vivo */
+.field-input {
+  transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+/* Chat - bolhas de mensagem entrando suavemente */
+.bolha {
+  animation: fadeInUp 0.25s ease;
+  animation-fill-mode: backwards;
+}
+
+/* Dropdown de notificações - animação de abrir/fechar */
+.notif-dropdown {
+  display: flex;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px) scale(0.98);
+  transition: opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              visibility 0.2s;
+  pointer-events: none;
+}
+
+.notif-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.notif-sino {
+  transition: transform 0.2s ease;
+}
+
+.notif-sino:hover {
+  transform: scale(1.12) rotate(-8deg);
+}
+
+.notif-item {
+  transition: background 0.15s ease, padding-left 0.15s ease;
+}
+
+.notif-item:hover {
+  padding-left: 20px;
+}
+
+/* Cards de catálogo / inbox / usuários - entrada suave */
+.catalogo-item,
+.inbox-row,
+.usuario-row,
+.historico-row,
+.atribuicao-row {
+  transition: background 0.15s ease;
+}
+
+/* Respeita quem prefere menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

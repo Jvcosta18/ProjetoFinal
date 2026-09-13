@@ -95,7 +95,7 @@ public class CheckInService {
                     TipoNotificacao.ALERTA_ATLETA,
                     atleta.getNome() + " está em alerta",
                     "Dor intensa relatada no check-in de hoje.",
-                    "painel-atleta-detalhe.html?id=" + atleta.getId()
+                    "../comissao/painel-atleta-detalhe.html?id=" + atleta.getId()
             );
         }
 
@@ -105,7 +105,7 @@ public class CheckInService {
                     TipoNotificacao.ALERTA_ATLETA,
                     atleta.getNome() + " está em alerta emocional",
                     "Estado emocional baixo relatado no check-in de hoje.",
-                    "painel-psicologo-atleta.html?id=" + atleta.getId()
+                    "../psicologo/painel-psicologo-atleta.html?id=" + atleta.getId()
             );
         }
     }

@@ -7,7 +7,7 @@ function exigirAutenticacao(perfilEsperado) {
   const perfil = sessionStorage.getItem("perfil");
 
   if (!token || perfil !== perfilEsperado) {
-    window.location.href = "login.html";
+    window.location.href = "../auth/login.html";
     return null;
   }
 
@@ -28,7 +28,7 @@ function exigirQualquerAutenticacao() {
   const perfil = sessionStorage.getItem("perfil");
 
   if (!token || !perfil) {
-    window.location.href = "login.html";
+    window.location.href = "../auth/login.html";
     return null;
   }
 
@@ -45,16 +45,16 @@ function exigirQualquerAutenticacao() {
 // Devolve o usuário para a página inicial do seu próprio painel.
 function paginaDoPainel(perfil) {
   const paginas = {
-    jogador: "painel-jogador.html",
-    comissao: "painel-comissao.html",
-    psicologo: "painel-psicologo.html",
+    jogador: "../jogador/painel-jogador.html",
+    comissao: "../comissao/painel-comissao.html",
+    psicologo: "../psicologo/painel-psicologo.html",
   };
-  return paginas[perfil] || "login.html";
+  return paginas[perfil] || "../auth/login.html";
 }
 
 function fazerLogout() {
   sessionStorage.clear();
-  window.location.href = "login.html";
+  window.location.href = "../auth/login.html";
 }
 
 // Wrapper de fetch que já injeta o header Authorization.
@@ -73,7 +73,7 @@ async function apiFetch(caminho, opcoes = {}) {
   // Token expirado/invalido - joga de volta pro login.
   if (resposta.status === 401) {
     sessionStorage.clear();
-    window.location.href = "login.html";
+    window.location.href = "../auth/login.html";
     throw new Error("Sessão expirada. Faça login novamente.");
   }
 

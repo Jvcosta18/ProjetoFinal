@@ -79,7 +79,7 @@ public class ConversaService {
                 TipoNotificacao.MENSAGEM,
                 "Nova mensagem de " + atleta.getNome(),
                 resumirTexto(texto),
-                "painel-conversa.html?atletaId=" + atleta.getId()
+                "../shared/painel-conversa.html?atletaId=" + atleta.getId()
         );
 
         return resposta;
@@ -168,7 +168,7 @@ public class ConversaService {
                 TipoNotificacao.MENSAGEM,
                 "Nova mensagem da " + nomeCanal,
                 resumirTexto(texto),
-                "painel-mensagens.html"
+                "../jogador/painel-mensagens.html"
         );
 
         return resposta;

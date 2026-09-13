@@ -227,3 +227,57 @@ select.auth-input {
     font-size: 26px;
   }
 }
+
+/* =========================================================
+   ANIMAÇÕES
+========================================================= */
+
+@keyframes fadeInUpAuth {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-page {
+  animation: fadeInUpAuth 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.auth-card {
+  transition: box-shadow 0.25s ease;
+}
+
+.auth-button {
+  transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.auth-button:hover {
+  box-shadow: 0 10px 24px rgba(228, 163, 59, 0.35);
+}
+
+.auth-button:active {
+  transform: scale(0.97);
+}
+
+.auth-input {
+  transition: border-color 0.2s ease;
+}
+
+.role-tag {
+  transition: transform 0.2s ease;
+}
+
+.auth-card:hover .role-tag {
+  transform: rotate(-6deg) scale(1.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

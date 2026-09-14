@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Página não encontrada | AthletePulse</title>
+
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<meta name="description" content="Página não encontrada no AthletePulse.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="./estilos/estilosindex.css">
+<style>
+  .pagina-404 {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+  }
+
+  .pagina-404 .numero {
+    font-family: var(--font-display);
+    font-size: clamp(90px, 20vw, 160px);
+    line-height: 0.9;
+    color: var(--turf-light);
+    -webkit-text-stroke: 2px var(--chalk-dim);
+    margin-bottom: 6px;
+  }
+
+  .pagina-404 h1 {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 4vw, 36px);
+    color: var(--chalk);
+    margin-bottom: 12px;
+  }
+
+  .pagina-404 p {
+    color: var(--chalk-dim);
+    max-width: 420px;
+    margin: 0 auto 30px;
+  }
+
+  @keyframes flutuar {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .pagina-404 .numero {
+    animation: flutuar 3s ease-in-out infinite;
+  }
+</style>
+</head>
+<body>
+
+  <div class="background"></div>
+
+  <div class="pagina-404">
+    <div>
+      <div class="eyebrow" style="justify-content:center">Fora de campo</div>
+      <div class="numero">404</div>
+      <h1>Essa página saiu de campo</h1>
+      <p>A página que você procura não existe ou foi movida. Confira o endereço ou volte para o início.</p>
+      <button onclick="window.location.href='./index.html'">Voltar para o início</button>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elenco | AthletePulse</title>
 
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<meta name="description" content="Visão geral do elenco com status de risco de cada atleta.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -40,7 +42,9 @@
 
     <div class="resumo-elenco" id="resumoElenco"></div>
 
-    <div class="grid-elenco" id="gridElenco"></div>
+    <div class="grid-elenco" id="gridElenco">
+      <div class="spinner-carregando"><span class="spinner"></span>Carregando elenco...</div>
+    </div>
   </div>
 
 <script src="../js/config.js"></script>

@@ -185,7 +185,7 @@ async function carregarElencoEAtribuicoes() {
 
 function renderAtribuicoes() {
   if (elenco.length === 0) {
-    listaAtribuicoes.innerHTML = '<div class="vazio">Carregando elenco...</div>';
+    listaAtribuicoes.innerHTML = '<div class="spinner-carregando"><span class="spinner"></span>Carregando elenco...</div>';
     return;
   }
 

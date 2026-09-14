@@ -963,8 +963,18 @@ textarea.field-input {
 
 @media (max-width: 768px) {
   .atribuicao-row {
-    grid-template-columns: 1fr 1fr;
-    row-gap: 8px;
+    grid-template-columns: 1fr;
+    row-gap: 10px;
+    align-items: stretch;
+  }
+
+  .atribuicao-row select.select-input,
+  .atribuicao-row .btn-secundario {
+    width: 100%;
+  }
+
+  .atribuicao-row .atribuicao-atual {
+    order: 3;
   }
 }
 
@@ -1481,5 +1491,68 @@ canvas {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+/* ===== SPINNER DE CARREGAMENTO ===== */
+.spinner-carregando {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 40px 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: girarSpinner 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes girarSpinner {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== AJUSTES FINOS DE RESPONSIVIDADE (chat, inbox, treinos) ===== */
+@media (max-width: 480px) {
+  .chat-tabs {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chat-tab {
+    flex: 1;
+    min-width: 45%;
+    text-align: center;
+    padding: 10px 8px;
+    font-size: 12.5px;
+  }
+
+  .inbox-preview {
+    max-width: 55vw;
+  }
+
+  .inbox-row {
+    gap: 8px;
+  }
+
+  .atleta-card-head {
+    flex-wrap: wrap;
+  }
+
+  .select-input,
+  .field-input {
+    font-size: 16px; /* evita zoom automático do iOS ao focar em campos */
+  }
+
+  .catalogo-acoes {
+    flex-direction: column;
   }
 }

@@ -101,7 +101,7 @@ function inicializarNotificacoes() {
         <span>Notificações</span>
         <button class="notif-marcar-todas" id="notifMarcarTodas" type="button">Marcar todas como lidas</button>
       </div>
-      <div class="notif-lista" id="notifLista"><div class="vazio">Carregando...</div></div>
+      <div class="notif-lista" id="notifLista"><div class="spinner-carregando"><span class="spinner"></span>Carregando...</div></div>
     </div>
   `;
   container.insertBefore(wrapper, container.firstChild);

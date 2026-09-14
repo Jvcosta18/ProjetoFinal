@@ -22,7 +22,7 @@ function trocarCanal(canal) {
   });
 
   tituloEl.innerText = NOMES_CANAL[canal];
-  mensagensEl.innerHTML = '<div class="vazio">Carregando...</div>';
+  mensagensEl.innerHTML = '<div class="spinner-carregando"><span class="spinner"></span>Carregando...</div>';
   carregarMensagens();
 }
 

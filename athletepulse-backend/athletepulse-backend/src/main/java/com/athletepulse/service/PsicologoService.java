@@ -52,9 +52,9 @@ public class PsicologoService {
      * @throws NegocioException se o usuário não for psicólogo (403)
      */
     public List<AtletaEmocionalResponse> listarAtletas(String emailPsicologo) {
-        exigirPsicologo(emailPsicologo);
+        Usuario psicologo = exigirPsicologo(emailPsicologo);
 
-        List<Usuario> atletas = usuarioRepository.findByTipoOrderByNomeAsc(TipoUsuario.JOGADOR);
+        List<Usuario> atletas = usuarioRepository.findByClube_IdAndTipoOrderByNomeAsc(psicologo.getClube().getId(), TipoUsuario.JOGADOR);
 
         return atletas.stream()
                 .map(atleta -> {
@@ -83,8 +83,8 @@ public class PsicologoService {
      * @throws NegocioException se o usuário não for psicólogo (403) ou o id não for de um atleta (404/400)
      */
     public List<PontoEmocionalResponse> listarHistoricoEmocional(String emailPsicologo, Long atletaId) {
-        exigirPsicologo(emailPsicologo);
-        buscarAtletaPorId(atletaId);
+        Usuario psicologo = exigirPsicologo(emailPsicologo);
+        buscarAtletaPorId(atletaId, psicologo.getClube().getId());
 
         return checkInRepository.findByAtleta_IdOrderByDataCheckinDesc(atletaId)
                 .stream()
@@ -104,8 +104,8 @@ public class PsicologoService {
      * @throws NegocioException se o usuário não for psicólogo (403) ou o id não for de um atleta (404/400)
      */
     public List<NotaResponse> listarNotas(String emailPsicologo, Long atletaId) {
-        exigirPsicologo(emailPsicologo);
-        buscarAtletaPorId(atletaId);
+        Usuario psicologo = exigirPsicologo(emailPsicologo);
+        buscarAtletaPorId(atletaId, psicologo.getClube().getId());
 
         return notaRepository.findByAtleta_IdOrderByCriadoEmDesc(atletaId)
                 .stream()
@@ -125,7 +125,7 @@ public class PsicologoService {
     @Transactional
     public NotaResponse criarNota(String emailPsicologo, Long atletaId, NotaRequest req) {
         Usuario psicologo = exigirPsicologo(emailPsicologo);
-        Usuario atleta = buscarAtletaPorId(atletaId);
+        Usuario atleta = buscarAtletaPorId(atletaId, psicologo.getClube().getId());
 
         NotaPsicologica nota = new NotaPsicologica();
         nota.setAtleta(atleta);
@@ -207,13 +207,17 @@ public class PsicologoService {
         return usuario;
     }
 
-    /** Busca um usuário pelo id e garante que seu perfil é {@link TipoUsuario#JOGADOR}. */
-    private Usuario buscarAtletaPorId(Long id) {
+    /** Busca um usuário pelo id, garante que seu perfil é {@link TipoUsuario#JOGADOR} e que pertence ao clube informado. */
+    private Usuario buscarAtletaPorId(Long id, Long clubeId) {
         Usuario atleta = usuarioRepository.findById(id)
                 .orElseThrow(() -> new NegocioException("Atleta não encontrado.", HttpStatus.NOT_FOUND));
 
         if (atleta.getTipo() != TipoUsuario.JOGADOR) {
             throw new NegocioException("Usuário informado não é um atleta.", HttpStatus.BAD_REQUEST);
+        }
+
+        if (!atleta.getClube().getId().equals(clubeId)) {
+            throw new NegocioException("Atleta não encontrado.", HttpStatus.NOT_FOUND);
         }
 
         return atleta;

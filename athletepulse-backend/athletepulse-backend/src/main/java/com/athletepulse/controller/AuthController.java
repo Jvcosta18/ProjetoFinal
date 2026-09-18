@@ -3,6 +3,7 @@ package com.athletepulse.controller;
 import com.athletepulse.dto.LoginRequest;
 import com.athletepulse.dto.LoginResponse;
 import com.athletepulse.dto.RegistroRequest;
+import com.athletepulse.dto.RegistroResponse;
 import com.athletepulse.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -28,12 +29,13 @@ public class AuthController {
     /**
      * Cadastra um novo usuário.
      *
-     * @return 201 Created em caso de sucesso; 409 se o e-mail já existir
+     * @return 201 Created com o nome do clube (e o token, se um clube novo
+     *         foi criado); 409 se o e-mail já existir; 404 se o token de
+     *         clube informado não existir
      */
     @PostMapping("/registrar")
-    public ResponseEntity<Void> registrar(@Valid @RequestBody RegistroRequest req) {
-        authService.registrar(req);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<RegistroResponse> registrar(@Valid @RequestBody RegistroRequest req) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.registrar(req));
     }
 
     /**

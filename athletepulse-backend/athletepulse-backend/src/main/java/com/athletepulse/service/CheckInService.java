@@ -88,9 +88,12 @@ public class CheckInService {
      * psicologia (alerta emocional) quando o check-in indicar risco.
      */
     private void notificarSeNecessario(Usuario atleta, CheckIn checkIn) {
+        Long clubeId = atleta.getClube().getId();
+
         String statusFisico = calcularStatusPontual(checkIn);
         if (statusFisico.equals("alerta")) {
             notificacaoService.notificarTodosDoTipo(
+                    clubeId,
                     TipoUsuario.COMISSAO,
                     TipoNotificacao.ALERTA_ATLETA,
                     atleta.getNome() + " está em alerta",
@@ -101,6 +104,7 @@ public class CheckInService {
 
         if (checkIn.getEstadoEmocional() <= 2) {
             notificacaoService.notificarTodosDoTipo(
+                    clubeId,
                     TipoUsuario.PSICOLOGO,
                     TipoNotificacao.ALERTA_ATLETA,
                     atleta.getNome() + " está em alerta emocional",
@@ -147,6 +151,10 @@ public class CheckInService {
             throw new NegocioException("Usuário informado não é um atleta.", HttpStatus.BAD_REQUEST);
         }
 
+        if (!atleta.getClube().getId().equals(chamador.getClube().getId())) {
+            throw new NegocioException("Atleta não encontrado.", HttpStatus.NOT_FOUND);
+        }
+
         return checkInRepository.findByAtleta_IdOrderByDataCheckinDesc(atletaId)
                 .stream()
                 .map(this::paraResponse)
@@ -168,7 +176,7 @@ public class CheckInService {
             throw new NegocioException("Apenas a comissão técnica pode ver o elenco.", HttpStatus.FORBIDDEN);
         }
 
-        List<Usuario> atletas = usuarioRepository.findByTipoOrderByNomeAsc(TipoUsuario.JOGADOR);
+        List<Usuario> atletas = usuarioRepository.findByClube_IdAndTipoOrderByNomeAsc(chamador.getClube().getId(), TipoUsuario.JOGADOR);
 
         return atletas.stream()
                 .map(atleta -> {

@@ -17,7 +17,7 @@
 
 <body class="auth-page">
 
-  <div class="auth-card">
+  <div class="auth-card" id="cardCadastro">
     <div class="role-tag">+</div>
     <h1 class="auth-title">Criar Conta</h1>
     <span class="auth-subtitle">Cadastro no AthletePulse</span>
@@ -43,6 +43,31 @@
       </select>
       <small class="error" id="erroTipo"></small>
 
+      <!-- Só aparece para Comissão Técnica: criar clube novo ou entrar num existente -->
+      <div class="bloco-clube" id="blocoTemClube">
+        <span class="field-label">Seu clube já está cadastrado no AthletePulse?</span>
+        <div class="toggle-clube" id="toggleTemClube">
+          <button type="button" data-valor="sim">Sim, tenho o código</button>
+          <button type="button" data-valor="nao">Não, criar clube</button>
+        </div>
+        <small class="error" id="erroTemClube"></small>
+      </div>
+
+      <!-- Token: obrigatório para jogador/psicólogo, e para comissão que já tem clube -->
+      <div class="bloco-clube" id="blocoToken">
+        <span class="field-label">Código do clube</span>
+        <input class="auth-input codigo-clube" type="text" id="tokenClube" placeholder="Ex: K7HMP2QB" maxlength="8" autocomplete="off">
+        <small class="error" id="erroToken"></small>
+        <span class="dica-campo">Peça esse código para quem cadastrou o clube.</span>
+      </div>
+
+      <!-- Nome do clube: só para comissão criando um clube novo -->
+      <div class="bloco-clube" id="blocoNomeClube">
+        <span class="field-label">Nome do clube</span>
+        <input class="auth-input" type="text" id="nomeClube" placeholder="Ex: Grêmio Esportivo Blumenau">
+        <small class="error" id="erroNomeClube"></small>
+      </div>
+
       <span class="field-label">Senha</span>
       <input class="auth-input" type="password" id="senha" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
       <small class="error" id="erroSenha"></small>
@@ -58,6 +83,25 @@
       </p>
 
     </form>
+  </div>
+
+  <!-- Tela exibida após criar um clube novo: mostra o código para compartilhar -->
+  <div class="auth-card card-sucesso" id="cardSucesso">
+    <div class="role-tag">✓</div>
+    <h1 class="auth-title">Clube criado!</h1>
+    <span class="auth-subtitle" id="nomeClubeCriado"></span>
+
+    <p class="texto-sucesso">
+      Compartilhe o código abaixo com seus atletas, comissão técnica e psicologia.
+      É com ele que eles entram no seu clube ao se cadastrar.
+    </p>
+
+    <div class="codigo-destaque" id="codigoGerado"></div>
+
+    <button class="auth-button" type="button" id="btnCopiarCodigo">Copiar código</button>
+    <button class="auth-button botao-secundario" type="button" onclick="window.location.href='login.html'">Ir para o login</button>
+
+    <p class="auth-text aviso-guardar">Guarde esse código — você vai precisar dele para adicionar novos membros.</p>
   </div>
 
 <script src="../js/config.js"></script>

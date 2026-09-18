@@ -17,4 +17,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     boolean existsByEmail(String email);
     /** Lista todos os usuários de um determinado perfil, ordenados por nome. */
     List<Usuario> findByTipoOrderByNomeAsc(TipoUsuario tipo);
+    /** Lista os usuários de um perfil específico dentro de um clube - usado para isolar dados entre clubes. */
+    List<Usuario> findByClube_IdAndTipoOrderByNomeAsc(Long clubeId, TipoUsuario tipo);
+    /** Lista todos os usuários de um clube, de qualquer perfil - usado na gestão de contas pela comissão. */
+    List<Usuario> findByClube_IdOrderByNomeAsc(Long clubeId);
 }

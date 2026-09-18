@@ -84,8 +84,8 @@ public class UsuarioService {
      * @throws NegocioException se o usuário não for da comissão técnica (403)
      */
     public List<UsuarioResponse> listarTodos(String emailComissao) {
-        exigirComissao(emailComissao);
-        return usuarioRepository.findAll()
+        Usuario comissao = exigirComissao(emailComissao);
+        return usuarioRepository.findByClube_IdOrderByNomeAsc(comissao.getClube().getId())
                 .stream()
                 .map(this::paraResponse)
                 .toList();
@@ -110,7 +110,7 @@ public class UsuarioService {
     @Transactional
     public UsuarioResponse atualizarComoComissao(String emailComissao, Long usuarioId, AdminAtualizarUsuarioRequest req) {
         Usuario comissao = exigirComissao(emailComissao);
-        Usuario alvo = buscarPorId(usuarioId);
+        Usuario alvo = buscarPorIdNoClube(usuarioId, comissao.getClube().getId());
 
         if (comissao.getId().equals(alvo.getId()) && !req.ativo()) {
             throw new NegocioException("Você não pode desativar a própria conta.", HttpStatus.BAD_REQUEST);
@@ -128,12 +128,12 @@ public class UsuarioService {
      * @param emailComissao e-mail do usuário autenticado (deve ser da comissão técnica)
      * @param usuarioId     identificador do usuário-alvo
      * @param req           nova senha
-     * @throws NegocioException se quem chama não for da comissão (403) ou o usuário-alvo não existir (404)
+     * @throws NegocioException se quem chama não for da comissão (403) ou o usuário-alvo não existir/não for do mesmo clube (404)
      */
     @Transactional
     public void redefinirSenhaComoComissao(String emailComissao, Long usuarioId, AdminRedefinirSenhaRequest req) {
-        exigirComissao(emailComissao);
-        Usuario alvo = buscarPorId(usuarioId);
+        Usuario comissao = exigirComissao(emailComissao);
+        Usuario alvo = buscarPorIdNoClube(usuarioId, comissao.getClube().getId());
 
         alvo.setSenha(passwordEncoder.encode(req.novaSenha()));
         usuarioRepository.save(alvo);
@@ -156,6 +156,15 @@ public class UsuarioService {
     private Usuario buscarPorId(Long id) {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new NegocioException("Usuário não encontrado.", HttpStatus.NOT_FOUND));
+    }
+
+    /** Busca um usuário pelo id, garantindo que pertence ao clube informado (evita gestão cruzada entre clubes). */
+    private Usuario buscarPorIdNoClube(Long id, Long clubeId) {
+        Usuario usuario = buscarPorId(id);
+        if (!usuario.getClube().getId().equals(clubeId)) {
+            throw new NegocioException("Usuário não encontrado.", HttpStatus.NOT_FOUND);
+        }
+        return usuario;
     }
 
     private UsuarioResponse paraResponse(Usuario u) {

@@ -43,6 +43,11 @@ public class Treino {
     @JoinColumn(name = "criado_por_id", nullable = false)
     private Usuario criadoPor;
 
+    /** Clube dono deste treino - o catálogo é isolado por clube. */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "clube_id", nullable = false)
+    private Clube clube;
+
     /** Data e hora de criação. */
     @Column(nullable = false, updatable = false)
     private LocalDateTime criadoEm = LocalDateTime.now();

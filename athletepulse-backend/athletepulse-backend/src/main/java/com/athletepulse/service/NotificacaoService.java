@@ -50,12 +50,15 @@ public class NotificacaoService {
 
     /**
      * Cria a mesma notificação para todos os usuários de um determinado
-     * perfil - usado quando o destinatário não é uma pessoa específica, mas
-     * sim "a comissão técnica" ou "a psicologia" como equipe.
+     * perfil <b>dentro de um clube específico</b> - usado quando o
+     * destinatário não é uma pessoa específica, mas sim "a comissão técnica"
+     * ou "a psicologia" daquele clube como equipe. O escopo por clube é
+     * essencial: sem ele, um evento em um clube notificaria a equipe de
+     * todos os outros clubes do sistema.
      */
     @Transactional
-    public void notificarTodosDoTipo(TipoUsuario tipo, TipoNotificacao tipoNotificacao, String titulo, String mensagem, String link) {
-        List<Usuario> destinatarios = usuarioRepository.findByTipoOrderByNomeAsc(tipo);
+    public void notificarTodosDoTipo(Long clubeId, TipoUsuario tipo, TipoNotificacao tipoNotificacao, String titulo, String mensagem, String link) {
+        List<Usuario> destinatarios = usuarioRepository.findByClube_IdAndTipoOrderByNomeAsc(clubeId, tipo);
         for (Usuario destinatario : destinatarios) {
             notificar(destinatario, tipoNotificacao, titulo, mensagem, link);
         }

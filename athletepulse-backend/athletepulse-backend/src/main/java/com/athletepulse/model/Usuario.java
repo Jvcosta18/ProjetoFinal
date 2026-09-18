@@ -46,6 +46,16 @@ public class Usuario {
     private TipoUsuario tipo;
 
     /**
+     * Clube ao qual este usuário pertence. Todo usuário pertence a
+     * exatamente um clube - atletas e psicólogos entram informando o token
+     * de convite no cadastro; a comissão técnica cria um novo clube ou
+     * também entra por token, dependendo da escolha feita no cadastro.
+     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "clube_id", nullable = false)
+    private Clube clube;
+
+    /**
      * Indica se a conta está ativa. Contas desativadas não conseguem fazer
      * login, mas seus dados históricos (check-ins, mensagens, treinos) são
      * preservados - por isso o sistema desativa em vez de excluir usuários.

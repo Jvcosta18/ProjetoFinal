@@ -75,6 +75,7 @@ public class ConversaService {
 
         TipoUsuario tipoEquipe = canal == CanalConversa.COMISSAO ? TipoUsuario.COMISSAO : TipoUsuario.PSICOLOGO;
         notificacaoService.notificarTodosDoTipo(
+                atleta.getClube().getId(),
                 tipoEquipe,
                 TipoNotificacao.MENSAGEM,
                 "Nova mensagem de " + atleta.getNome(),
@@ -98,7 +99,7 @@ public class ConversaService {
         Usuario staff = buscarUsuario(emailStaff);
         CanalConversa canal = canalDoTipo(staff.getTipo());
 
-        List<Usuario> atletas = usuarioRepository.findByTipoOrderByNomeAsc(TipoUsuario.JOGADOR);
+        List<Usuario> atletas = usuarioRepository.findByClube_IdAndTipoOrderByNomeAsc(staff.getClube().getId(), TipoUsuario.JOGADOR);
 
         return atletas.stream()
                 .map(atleta -> {
@@ -138,7 +139,7 @@ public class ConversaService {
     public List<MensagemResponse> listarMensagensComAtleta(String emailStaff, Long atletaId) {
         Usuario staff = buscarUsuario(emailStaff);
         CanalConversa canal = canalDoTipo(staff.getTipo());
-        Usuario atleta = buscarAtletaPorId(atletaId);
+        Usuario atleta = buscarAtletaPorId(atletaId, staff.getClube().getId());
 
         Conversa conversa = obterOuCriarConversa(atleta, canal);
         return montarMensagens(conversa.getId(), staff.getId());
@@ -157,7 +158,7 @@ public class ConversaService {
     public MensagemResponse enviarComoStaff(String emailStaff, Long atletaId, String texto) {
         Usuario staff = buscarUsuario(emailStaff);
         CanalConversa canal = canalDoTipo(staff.getTipo());
-        Usuario atleta = buscarAtletaPorId(atletaId);
+        Usuario atleta = buscarAtletaPorId(atletaId, staff.getClube().getId());
 
         Conversa conversa = obterOuCriarConversa(atleta, canal);
         MensagemResponse resposta = salvarMensagem(conversa, staff, texto, staff.getId());
@@ -249,13 +250,17 @@ public class ConversaService {
         return usuario;
     }
 
-    /** Busca um usuário pelo id e garante que seu perfil é {@link TipoUsuario#JOGADOR}. */
-    private Usuario buscarAtletaPorId(Long id) {
+    /** Busca um usuário pelo id, garante que seu perfil é {@link TipoUsuario#JOGADOR} e que pertence ao clube informado. */
+    private Usuario buscarAtletaPorId(Long id, Long clubeId) {
         Usuario atleta = usuarioRepository.findById(id)
                 .orElseThrow(() -> new NegocioException("Atleta não encontrado.", HttpStatus.NOT_FOUND));
 
         if (atleta.getTipo() != TipoUsuario.JOGADOR) {
             throw new NegocioException("Usuário informado não é um atleta.", HttpStatus.BAD_REQUEST);
+        }
+
+        if (!atleta.getClube().getId().equals(clubeId)) {
+            throw new NegocioException("Atleta não encontrado.", HttpStatus.NOT_FOUND);
         }
 
         return atleta;

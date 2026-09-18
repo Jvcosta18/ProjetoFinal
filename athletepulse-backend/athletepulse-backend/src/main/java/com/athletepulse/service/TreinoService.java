@@ -63,20 +63,21 @@ public class TreinoService {
         treino.setDescricao(req.descricao().trim());
         treino.setIntensidade(converterIntensidade(req.intensidade()));
         treino.setCriadoPor(comissao);
+        treino.setClube(comissao.getClube());
 
         treinoRepository.save(treino);
         return paraResponse(treino);
     }
 
     /**
-     * Lista todo o catálogo de treinos, do mais recente ao mais antigo.
+     * Lista todo o catálogo de treinos do clube da comissão autenticada, do mais recente ao mais antigo.
      *
      * @param emailComissao e-mail do usuário autenticado (deve ser da comissão técnica)
      * @throws NegocioException se o usuário não for da comissão (403)
      */
     public List<TreinoResponse> listarCatalogo(String emailComissao) {
-        exigirComissao(emailComissao);
-        return treinoRepository.findAllByOrderByCriadoEmDesc()
+        Usuario comissao = exigirComissao(emailComissao);
+        return treinoRepository.findByClube_IdOrderByCriadoEmDesc(comissao.getClube().getId())
                 .stream()
                 .map(this::paraResponse)
                 .toList();
@@ -98,8 +99,8 @@ public class TreinoService {
     @Transactional
     public TreinoAtribuidoResponse atribuir(String emailComissao, AtribuirTreinoRequest req) {
         Usuario comissao = exigirComissao(emailComissao);
-        Usuario atleta = buscarAtletaPorId(req.atletaId());
-        Treino treino = buscarTreinoPorId(req.treinoId());
+        Usuario atleta = buscarAtletaPorId(req.atletaId(), comissao.getClube().getId());
+        Treino treino = buscarTreinoPorId(req.treinoId(), comissao.getClube().getId());
 
         TreinoAtribuido atribuicao = treinoAtribuidoRepository
                 .findByAtleta_IdAndData(atleta.getId(), LocalDate.now())
@@ -132,9 +133,9 @@ public class TreinoService {
      * @throws NegocioException se o usuário não for da comissão (403)
      */
     public List<TreinoAtribuidoResponse> listarAtribuicoesDeHoje(String emailComissao) {
-        exigirComissao(emailComissao);
+        Usuario comissao = exigirComissao(emailComissao);
 
-        List<Usuario> atletas = usuarioRepository.findByTipoOrderByNomeAsc(TipoUsuario.JOGADOR);
+        List<Usuario> atletas = usuarioRepository.findByClube_IdAndTipoOrderByNomeAsc(comissao.getClube().getId(), TipoUsuario.JOGADOR);
 
         return atletas.stream()
                 .map(atleta -> treinoAtribuidoRepository
@@ -184,8 +185,8 @@ public class TreinoService {
      */
     @Transactional
     public TreinoResponse editarTreino(String emailComissao, Long treinoId, TreinoRequest req) {
-        exigirComissao(emailComissao);
-        Treino treino = buscarTreinoPorId(treinoId);
+        Usuario comissao = exigirComissao(emailComissao);
+        Treino treino = buscarTreinoPorId(treinoId, comissao.getClube().getId());
 
         treino.setTitulo(req.titulo().trim());
         treino.setDescricao(req.descricao().trim());
@@ -210,8 +211,8 @@ public class TreinoService {
      */
     @Transactional
     public void excluirTreino(String emailComissao, Long treinoId) {
-        exigirComissao(emailComissao);
-        Treino treino = buscarTreinoPorId(treinoId);
+        Usuario comissao = exigirComissao(emailComissao);
+        Treino treino = buscarTreinoPorId(treinoId, comissao.getClube().getId());
 
         if (treinoAtribuidoRepository.existsByTreino_Id(treinoId)) {
             throw new NegocioException(
@@ -223,10 +224,16 @@ public class TreinoService {
         treinoRepository.delete(treino);
     }
 
-    /** Busca um treino do catálogo pelo id. */
-    private Treino buscarTreinoPorId(Long id) {
-        return treinoRepository.findById(id)
+    /** Busca um treino do catálogo pelo id, garantindo que pertence ao clube informado. */
+    private Treino buscarTreinoPorId(Long id, Long clubeId) {
+        Treino treino = treinoRepository.findById(id)
                 .orElseThrow(() -> new NegocioException("Treino não encontrado.", HttpStatus.NOT_FOUND));
+
+        if (!treino.getClube().getId().equals(clubeId)) {
+            throw new NegocioException("Treino não encontrado.", HttpStatus.NOT_FOUND);
+        }
+
+        return treino;
     }
 
     /** Converte a string de intensidade (ex: "leve") para o enum {@link IntensidadeTreino}. */
@@ -255,13 +262,17 @@ public class TreinoService {
         return usuario;
     }
 
-    /** Busca um usuário pelo id e garante que seu perfil é {@link TipoUsuario#JOGADOR}. */
-    private Usuario buscarAtletaPorId(Long id) {
+    /** Busca um usuário pelo id, garante que seu perfil é {@link TipoUsuario#JOGADOR} e que pertence ao clube informado. */
+    private Usuario buscarAtletaPorId(Long id, Long clubeId) {
         Usuario atleta = usuarioRepository.findById(id)
                 .orElseThrow(() -> new NegocioException("Atleta não encontrado.", HttpStatus.NOT_FOUND));
 
         if (atleta.getTipo() != TipoUsuario.JOGADOR) {
             throw new NegocioException("Usuário informado não é um atleta.", HttpStatus.BAD_REQUEST);
+        }
+
+        if (!atleta.getClube().getId().equals(clubeId)) {
+            throw new NegocioException("Atleta não encontrado.", HttpStatus.NOT_FOUND);
         }
 
         return atleta;

@@ -196,8 +196,13 @@ function renderAtribuicoes() {
 
   listaAtribuicoes.innerHTML = elenco
     .map((atleta) => {
+      const medico = MEDICO_INFO[atleta.statusMedico || "sem_registro"];
       const opcoes = catalogo
         .map((t) => {
+          const travado = medico.bloqueado && t.intensidade !== "recuperacao";
+          if (travado) {
+            return `<option value="${t.id}" disabled>${t.titulo} (aguardando liberação médica)</option>`;
+          }
           const sugerido = t.intensidade === atleta.intensidadeSugerida ? " ★" : "";
           const selecionado =
             atleta.atribuicaoAtual && atleta.atribuicaoAtual.treino.id === t.id ? "selected" : "";
@@ -214,6 +219,7 @@ function renderAtribuicoes() {
           <div>
             <div class="atribuicao-nome">${atleta.nome}</div>
             <span class="status-badge ${STATUS_CLASSE[atleta.status]}">${STATUS_LABEL[atleta.status]}</span>
+            ${medico.bloqueado ? `<div class="bloco-medico ${medico.classe}">${medico.label} — só treino de recuperação</div>` : ""}
           </div>
           <select class="select-input" id="select-${atleta.id}">
             <option value="">Escolher treino...</option>

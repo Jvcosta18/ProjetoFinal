@@ -8,7 +8,9 @@ import com.athletepulse.model.CheckIn;
 import com.athletepulse.model.TipoNotificacao;
 import com.athletepulse.model.TipoUsuario;
 import com.athletepulse.model.Usuario;
+import com.athletepulse.model.Lesao;
 import com.athletepulse.repository.CheckInRepository;
+import com.athletepulse.repository.LesaoRepository;
 import com.athletepulse.repository.UsuarioRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -29,15 +31,18 @@ public class CheckInService {
     private final CheckInRepository checkInRepository;
     private final UsuarioRepository usuarioRepository;
     private final NotificacaoService notificacaoService;
+    private final LesaoRepository lesaoRepository;
 
     public CheckInService(
             CheckInRepository checkInRepository,
             UsuarioRepository usuarioRepository,
-            NotificacaoService notificacaoService
+            NotificacaoService notificacaoService,
+            LesaoRepository lesaoRepository
     ) {
         this.checkInRepository = checkInRepository;
         this.usuarioRepository = usuarioRepository;
         this.notificacaoService = notificacaoService;
+        this.lesaoRepository = lesaoRepository;
     }
 
     /**
@@ -110,6 +115,18 @@ public class CheckInService {
                     atleta.getNome() + " está em alerta emocional",
                     "Estado emocional baixo relatado no check-in de hoje.",
                     "../psicologo/painel-psicologo-atleta.html?id=" + atleta.getId()
+            );
+        }
+
+        if (checkIn.isTemDor()) {
+            notificacaoService.notificarTodosDoTipo(
+                    clubeId,
+                    TipoUsuario.MEDICO,
+                    TipoNotificacao.ALERTA_ATLETA,
+                    atleta.getNome() + " relatou dor no check-in",
+                    "Dor em " + (checkIn.getLocalDor() != null ? checkIn.getLocalDor() : "local não especificado")
+                            + " - avaliação médica recomendada.",
+                    "../medico/painel-medico-atleta.html?id=" + atleta.getId()
             );
         }
     }
@@ -185,6 +202,8 @@ public class CheckInService {
 
                     String status = calcularStatus(ultimo);
 
+                    Lesao lesao = lesaoRepository.findFirstByAtleta_IdOrderByCriadoEmDesc(atleta.getId()).orElse(null);
+
                     return new AtletaResumoResponse(
                             atleta.getId(),
                             atleta.getNome(),
@@ -192,7 +211,10 @@ public class CheckInService {
                             status,
                             ultimo != null ? paraResponse(ultimo) : null,
                             sugerirIntensidade(status),
-                            temRiscoConsecutivo(historico)
+                            temRiscoConsecutivo(historico),
+                            lesao != null ? lesao.getStatus().name().toLowerCase() : "sem_registro",
+                            lesao != null ? lesao.getDescricao() : null,
+                            lesao != null && lesao.getPrevisaoRetorno() != null ? lesao.getPrevisaoRetorno().toString() : null
                     );
                 })
                 .toList();

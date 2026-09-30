@@ -20,7 +20,7 @@ function atualizarCamposClube() {
   blocoToken.classList.remove("show");
   blocoNomeClube.classList.remove("show");
 
-  if (tipo === "jogador" || tipo === "psicologo") {
+  if (tipo === "jogador" || tipo === "psicologo" || tipo === "medico") {
     // Atleta e psicólogo sempre entram num clube existente.
     blocoToken.classList.add("show");
     return;
@@ -87,7 +87,7 @@ form.addEventListener("submit", async function (e) {
   // Validações específicas de clube
   const ehComissao = selectTipo.value === "comissao";
   const precisaToken =
-    selectTipo.value === "jogador" || selectTipo.value === "psicologo" || (ehComissao && temClube === true);
+    selectTipo.value === "jogador" || selectTipo.value === "psicologo" || selectTipo.value === "medico" || (ehComissao && temClube === true);
 
   if (ehComissao && temClube === null) {
     document.getElementById("erroTemClube").innerText = "Escolha uma das opções";

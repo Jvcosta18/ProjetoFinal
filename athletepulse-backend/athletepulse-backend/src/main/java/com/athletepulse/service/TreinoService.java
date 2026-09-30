@@ -33,17 +33,20 @@ public class TreinoService {
     private final TreinoAtribuidoRepository treinoAtribuidoRepository;
     private final UsuarioRepository usuarioRepository;
     private final NotificacaoService notificacaoService;
+    private final LesaoService lesaoService;
 
     public TreinoService(
             TreinoRepository treinoRepository,
             TreinoAtribuidoRepository treinoAtribuidoRepository,
             UsuarioRepository usuarioRepository,
-            NotificacaoService notificacaoService
+            NotificacaoService notificacaoService,
+            LesaoService lesaoService
     ) {
         this.treinoRepository = treinoRepository;
         this.treinoAtribuidoRepository = treinoAtribuidoRepository;
         this.usuarioRepository = usuarioRepository;
         this.notificacaoService = notificacaoService;
+        this.lesaoService = lesaoService;
     }
 
     /**
@@ -94,13 +97,17 @@ public class TreinoService {
      * @param req           atleta, treino e observações
      * @return a atribuição criada ou atualizada
      * @throws NegocioException se o usuário não for da comissão (403), ou
-     *                          o atleta/treino informado não existir (404)
+     *                          o atleta/treino informado não existir (404),
+     *                          ou o atleta não estiver liberado pelo
+     *                          departamento médico para essa intensidade (409)
      */
     @Transactional
     public TreinoAtribuidoResponse atribuir(String emailComissao, AtribuirTreinoRequest req) {
         Usuario comissao = exigirComissao(emailComissao);
         Usuario atleta = buscarAtletaPorId(req.atletaId(), comissao.getClube().getId());
         Treino treino = buscarTreinoPorId(req.treinoId(), comissao.getClube().getId());
+
+        lesaoService.exigirLiberacaoParaTreino(atleta.getId(), treino.getIntensidade());
 
         TreinoAtribuido atribuicao = treinoAtribuidoRepository
                 .findByAtleta_IdAndData(atleta.getId(), LocalDate.now())

@@ -16,6 +16,12 @@ package com.athletepulse.dto;
  * @param alertaConsecutivo   {@code true} se o atleta esteve em "atenção" ou "alerta" nos últimos
  *                            3 dias consecutivos (sem falhar nenhum check-in) - sinaliza um padrão
  *                            de risco persistente, não só um dia ruim isolado
+ * @param statusMedico        situação de liberação definida pelo departamento médico, em minúsculas
+ *                            ({@code "sem_registro"}, {@code "em_avaliacao"}, {@code "em_recuperacao"},
+ *                            {@code "liberado_com_restricao"} ou {@code "liberado_total"}) - somente leitura
+ *                            para a comissão, que não altera esse status
+ * @param descricaoLesao      descrição da lesão mais recente, ou {@code null}
+ * @param previsaoRetorno     previsão de retorno (ISO) da lesão mais recente, ou {@code null}
  */
 public record AtletaResumoResponse(
         Long id,
@@ -25,5 +31,8 @@ public record AtletaResumoResponse(
         String status,
         CheckInResponse ultimoCheckin,
         String intensidadeSugerida,
-        boolean alertaConsecutivo
+        boolean alertaConsecutivo,
+        String statusMedico,
+        String descricaoLesao,
+        String previsaoRetorno
 ) {}

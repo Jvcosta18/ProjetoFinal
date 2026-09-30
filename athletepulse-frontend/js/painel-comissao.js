@@ -74,7 +74,20 @@ function renderCard(atleta) {
         <span class="status-badge ${info.classe}">${info.label}</span>
       </div>
       ${atleta.alertaConsecutivo ? '<div class="tag-consecutivo">⚠ Em risco há 3 dias seguidos</div>' : ""}
+      ${blocoMedico(atleta)}
       ${detalhes}
+    </div>
+  `;
+}
+
+function blocoMedico(atleta) {
+  if (!atleta.statusMedico || atleta.statusMedico === "sem_registro") return "";
+  const m = MEDICO_INFO[atleta.statusMedico];
+  const retorno = atleta.previsaoRetorno ? ` · retorno previsto ${formatarDataBR(atleta.previsaoRetorno)}` : "";
+  return `
+    <div class="bloco-medico ${m.classe}">
+      <strong>Dep. médico:</strong> ${m.label}${retorno}
+      ${atleta.descricaoLesao ? `<div class="bloco-medico-desc">${atleta.descricaoLesao}</div>` : ""}
     </div>
   `;
 }

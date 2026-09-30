@@ -40,6 +40,12 @@
           <h2>Psicóloga(o)</h2>
           <p>Acompanhamento individual dos atletas.</p>
         </div>
+
+        <div class="card" onclick="irPara('medico')">
+          <div class="jersey-tag">MED</div>
+          <h2>Departamento Médico</h2>
+          <p>Liberação e histórico de lesões.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -56,6 +62,10 @@
 
       if (tipo === "psicologo") {
         window.location.href = "login-psicologo.html";
+      }
+
+      if (tipo === "medico") {
+        window.location.href = "login-medico.html";
       }
     }
   </script>

@@ -48,6 +48,7 @@ function paginaDoPainel(perfil) {
     jogador: "../jogador/painel-jogador.html",
     comissao: "../comissao/painel-comissao.html",
     psicologo: "../psicologo/painel-psicologo.html",
+    medico: "../medico/painel-medico.html",
   };
   return paginas[perfil] || "../auth/login.html";
 }

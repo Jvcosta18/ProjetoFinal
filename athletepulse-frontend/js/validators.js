@@ -41,3 +41,19 @@ function setLoading(button, loading, textoNormal, textoCarregando) {
   button.disabled = loading;
   button.innerText = loading ? textoCarregando : textoNormal;
 }
+
+
+// ===== Situação médica (definida pelo departamento médico, somente leitura para a comissão) =====
+const MEDICO_INFO = {
+  sem_registro: { label: "Liberado", classe: "status-ok", bloqueado: false },
+  liberado_total: { label: "Liberado", classe: "status-ok", bloqueado: false },
+  liberado_com_restricao: { label: "Liberado c/ restrição", classe: "status-atencao", bloqueado: true },
+  em_avaliacao: { label: "Em avaliação médica", classe: "status-atencao", bloqueado: true },
+  em_recuperacao: { label: "Machucado · em recuperação", classe: "status-alerta", bloqueado: true },
+};
+
+function formatarDataBR(iso) {
+  if (!iso) return "";
+  const [ano, mes, dia] = iso.split("-");
+  return `${dia}/${mes}/${ano}`;
+}

@@ -9,5 +9,7 @@ public enum TipoUsuario {
     /** Comissão técnica (inclui técnico e preparador físico). */
     COMISSAO,
     /** Psicólogo(a) - acesso restrito, com notas privadas entre atleta e psicólogo. */
-    PSICOLOGO
+    PSICOLOGO,
+    /** Departamento médico/fisioterapia - avalia lesões e libera (ou não) o atleta para treinar. */
+    MEDICO
 }

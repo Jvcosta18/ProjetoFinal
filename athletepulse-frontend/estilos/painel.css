@@ -1556,3 +1556,20 @@ canvas {
     flex-direction: column;
   }
 }
+
+/* ===== SITUAÇÃO MÉDICA (visível à comissão) ===== */
+.bloco-medico {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  padding: 7px 10px;
+  border-radius: 4px;
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+.bloco-medico-desc {
+  font-family: var(--font-body);
+  font-size: 12px;
+  margin-top: 2px;
+  opacity: 0.85;
+}

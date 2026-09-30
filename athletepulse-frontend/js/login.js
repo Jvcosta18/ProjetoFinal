@@ -60,6 +60,7 @@ form.addEventListener("submit", async function (e) {
       jogador: "../jogador/painel-jogador.html",
       comissao: "../comissao/painel-comissao.html",
       psicologo: "../psicologo/painel-psicologo.html",
+      medico: "../medico/painel-medico.html",
     };
     window.location.href = paginas[perfil] || "login.html";
   } catch (err) {
